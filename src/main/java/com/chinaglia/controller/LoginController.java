@@ -1,12 +1,9 @@
 package com.chinaglia.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
-import java.util.Set;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.chinaglia.model.Role;
 import com.chinaglia.model.User;
 import com.chinaglia.service.UserService;
 
+//implementing ErrorController to handle errors better (404 etc)
 @Controller
-public class LoginController {
+public class LoginController implements ErrorController {
+	
+    private static final String PATH = "/error";
 	
 	@Autowired
 	private UserService userService;
@@ -102,4 +101,16 @@ public class LoginController {
 		}
 		return modelAndView;
 	}	
+	
+	//error handling
+    @RequestMapping(value = PATH)
+    public String error() {
+        return "Error handling";
+    }
+    
+	//error handling
+    @Override
+    public String getErrorPath() {
+        return PATH;
+    }	
 }
