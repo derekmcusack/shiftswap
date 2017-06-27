@@ -2,28 +2,25 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>ShiftSwap Registration</title>
+	<title>Request a ShiftSwap</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<form th:action="@{/}" method="get">
-		<button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
-	</form>	
 	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<form autocomplete="off" action="#" th:action="@{/registration}"
-					th:object="${user}" method="post" class="form-horizontal"
+				<form autocomplete="off" action="#" th:action="@{/requestaswap}"
+					th:object="${swaporiginator}" method="post" class="form-horizontal"
 					role="form">
-					<h2>Register Your Details Here</h2>
+					<h2>Request a Swap</h2>
 					<div class="form-group">
 						<div class="col-sm-9">
-						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+						<label th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"
 								class="validation-message"></label>
-						<input type="text" th:field="*{name}" placeholder="First Name"
+						<input type="date" th:value="*{startTime}"
 								class="form-control" /> 
 						</div>
 					</div>
