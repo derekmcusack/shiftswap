@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.chinaglia.model.SwapOrig;
 import com.chinaglia.model.User;
 import com.chinaglia.service.UserService;
 
@@ -35,7 +36,9 @@ public class LoginController implements ErrorController {
 	//Serves Request a Swap page/view	
 	@RequestMapping(value={"/requestaswap"}, method = RequestMethod.GET)
 	public ModelAndView requestaswap(){
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView();;
+		modelAndView.addObject("user", new User());
+		modelAndView.addObject("swaporig", new SwapOrig());
 		modelAndView.setViewName("requestaswap");
 		return modelAndView;
 	}	
@@ -44,8 +47,7 @@ public class LoginController implements ErrorController {
 	@RequestMapping(value="/registration", method = RequestMethod.GET)
 	public ModelAndView registration(){
 		ModelAndView modelAndView = new ModelAndView();
-		User user = new User();
-		modelAndView.addObject("user", user);
+		modelAndView.addObject("user", new User());
 		modelAndView.setViewName("registration");
 		return modelAndView;
 	}
@@ -105,7 +107,7 @@ public class LoginController implements ErrorController {
 	//error handling
     @RequestMapping(value = PATH)
     public String error() {
-        return "Error handling";
+        return "We have a navigation problem";
     }
     
 	//error handling
