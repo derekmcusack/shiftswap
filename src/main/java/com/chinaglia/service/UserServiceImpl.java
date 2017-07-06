@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findByEmail(email);
 	}	
 	
-	//should return role of user
+	//return role of user
 	public Set<Role> findUsersRole(String email) {
 		User user = findUserByEmail(email);
 		Set<Role> userRole = user.getRoles(); 
@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void saveUser(User user) {
+		//encrypt the chosen password
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		//mark new user as active
         user.setActive(1);

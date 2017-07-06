@@ -14,9 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.chinaglia.model.SwapOrig;
 import com.chinaglia.model.User;
+import com.chinaglia.service.SwapService;
 import com.chinaglia.service.UserService;
 
-//implementing ErrorController to handle errors better (404 etc)
+//implementing ErrorController to handle navigation errors better (404 etc)
 @Controller
 public class LoginController implements ErrorController {
 	
@@ -24,6 +25,8 @@ public class LoginController implements ErrorController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SwapService swapService;
 
 	//Serves Login page/view	
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
@@ -32,12 +35,31 @@ public class LoginController implements ErrorController {
 		modelAndView.setViewName("login");
 		return modelAndView;
 	}
+
+	//Serves View Swaps page/view	
+	@RequestMapping(value={"/viewswaps"}, method = RequestMethod.GET)
+	public ModelAndView viewswaps(){
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("viewswaps");
+		return modelAndView;
+	}		
 	
 	//Serves Request a Swap page/view	
 	@RequestMapping(value={"/requestaswap"}, method = RequestMethod.GET)
 	public ModelAndView requestaswap(){
-		ModelAndView modelAndView = new ModelAndView();;
+		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("user", new User());
+		modelAndView.addObject("swaporig", new SwapOrig());
+		modelAndView.setViewName("requestaswap");
+		return modelAndView;
+	}	
+	
+	//Request a Swap - on submit
+	@RequestMapping(value = "/requestaswap", method = RequestMethod.POST)
+	public ModelAndView createNewSwapRequest(@Valid SwapOrig swaporig, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		swapService.saveSwap(swaporig);
+		modelAndView.addObject("successMessage", "Success! You have requested a shift swap!");
 		modelAndView.addObject("swaporig", new SwapOrig());
 		modelAndView.setViewName("requestaswap");
 		return modelAndView;
@@ -86,7 +108,7 @@ public class LoginController implements ErrorController {
 		return modelAndView;
 	}
 	
-	//To Handle Login Process
+	//To Handle Login Process based on whether user or admin
 	@RequestMapping(value="/home", method = RequestMethod.GET)
 	public ModelAndView homeUser(){
 		ModelAndView modelAndView = new ModelAndView();

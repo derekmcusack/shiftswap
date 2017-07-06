@@ -8,6 +8,10 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+
+	<form th:action="@{/home}" method="get">
+		<button class="btn btn-md btn-warning btn-block" type="Submit">Go Home</button>
+	</form>	
 	
 	<div class="container">
 		<div class="row">
@@ -15,15 +19,36 @@
 				<form autocomplete="off" action="#" th:action="@{/requestaswap}"
 					th:object="${swaporig}" method="POST" class="form-horizontal"
 					role="form">
-					<h2>Request a Swap</h2>
+					<h2>Request a Swap</h2><br /><br /><br />
 					<div class="form-group">
 						<div class="col-sm-9">
+						Start Time of Shift You Want To Swap
 						<label th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"
 								class="validation-message"></label>
-						<input type="date" th:field="*{startTime}" placeholder="Start Date"
+						<input type="text" th:field="*{startTime}" placeholder="Shift Date and Start Time"
 								class="form-control" /> 
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<div class="col-sm-9">
+						Finish Time of Shift You Want To Swap
+						<label th:if="${#fields.hasErrors('finishTime')}" th:errors="*{finishTime}"
+								class="validation-message"></label>
+						<input type="text" th:field="*{finishTime}" placeholder="Shift Finish Time"
+								class="form-control" /> 
+						</div>
+					</div>		
+					
+					<div class="form-group">
+						<div class="col-sm-9">
+						Desired Shift To Take As A Swap For Your Shift
+						<label th:if="${#fields.hasErrors('note')}" th:errors="*{note}"
+								class="validation-message"></label>
+						<input type="text" th:field="*{note}" placeholder="Type Here"
+								class="form-control" /> 
+						</div>
+					</div>										
 
 
 					<div class="form-group">

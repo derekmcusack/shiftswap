@@ -2,8 +2,6 @@ package com.chinaglia.model;
 
 
 
-import java.time.LocalDateTime;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 @Entity
@@ -28,14 +28,19 @@ public class SwapOrig {
 	private int id;
 	@Column(name = "StartTime")
 	@NotEmpty(message = "*Please enter the start time")
-	private LocalDateTime startTime;
+	private String startTime;
 	@Column(name = "FinishTime")
 	@NotEmpty(message = "*Please enter the finish time")
-	private LocalDateTime finishTime;
+	private String finishTime;
 	@Column(name = "confirmed")
 	private int confirmed;
+	@Column(name = "note")
+	private String note;
+
+	@Column(name = "email")
+	private String email;
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "users", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "userID"))
+	@JoinTable(name = "users", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "userID"))
 
 
 	public int getId() {
@@ -46,19 +51,19 @@ public class SwapOrig {
 		this.id = id;
 	}
 
-	public LocalDateTime getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(LocalDateTime startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public LocalDateTime getFinishTime() {
+	public String getFinishTime() {
 		return finishTime;
 	}
 
-	public void setFinishTime(LocalDateTime finishTime) {
+	public void setFinishTime(String finishTime) {
 		this.finishTime = finishTime;
 	}
 
@@ -69,5 +74,22 @@ public class SwapOrig {
 	public void setConfirmed(int confirmed) {
 		this.confirmed = confirmed;
 	}
+	
+	public String getNote() {
+		return note;
+	}
 
+	public void setNote(String note) {
+		this.note = note;
+	}	
+	
+	public String getEmail() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = (String) auth.getPrincipal();
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
