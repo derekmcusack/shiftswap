@@ -17,12 +17,25 @@
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 
-					<h2>Available Shift Swaps</h2><br /><br /><br />
-										
-
-
-
-
+					<br /><br />
+					<div th:if="${not #lists.isEmpty(viewswaps)}">
+						<h2>Available Shift Swaps</h2>
+						<table class="table table-striped">
+							<tr>
+								<th>Start</th>
+								<th>Finish</th>
+								<th>Note</th>
+								<th>Email</th>
+							</tr>
+							<tr th:each="viewswap : ${viewswaps}">
+								<td th:text="${viewswap.StartTime}"></td>
+								<td th:text="${viewswap.FinishTime}"></td>
+								<td th:text="${viewswap.note}"></td>
+								<td th:text="${viewswap.email}"></td>
+							</tr>
+						
+						</table>
+					</div>					
 			</div>
 		</div>
 	</div>

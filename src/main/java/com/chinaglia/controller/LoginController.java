@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,17 +37,25 @@ public class LoginController implements ErrorController {
 		return modelAndView;
 	}
 
-	//Serves View Swaps page/view	
+	//Gets Data From Swap Request Table	
+//	@RequestMapping(value={"/viewswaps"}, method = RequestMethod.GET)
+//	public String viewSwaps(Model model){
+//		model.addAttribute("viewswap", swapService.listAllSwaps());	
+//		return "viewswaps/list";
+//	}		
+	
+	//Serves View Swaps page/view
 	@RequestMapping(value={"/viewswaps"}, method = RequestMethod.GET)
-	public ModelAndView viewswaps(){
+	public ModelAndView viewSwaps(){
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("viewswaps");
+		modelAndView.addObject("viewswaps", swapService.listAllSwaps());
 		return modelAndView;
-	}		
+	}
+	
 	
 	//Serves Request a Swap page/view	
 	@RequestMapping(value={"/requestaswap"}, method = RequestMethod.GET)
-	public ModelAndView requestaswap(){
+	public ModelAndView requestASwap(){
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("user", new User());
 		modelAndView.addObject("swaporig", new SwapOrig());

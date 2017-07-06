@@ -1,5 +1,7 @@
 package com.chinaglia.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +27,11 @@ public class SwapServiceImpl implements SwapService{
 	@Override
 	public SwapOrig findUserByEmail(String email) {
 		return swapRepository.findUserByEmail(email);
+	}
+
+	@Override
+	public List<SwapOrig> listAllSwaps() {
+		return swapRepository.findAll();
 	}
 
 }

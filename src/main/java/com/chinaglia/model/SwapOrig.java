@@ -84,8 +84,6 @@ public class SwapOrig {
 	}	
 	
 	public String getEmail() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = (String) auth.getPrincipal();
 		return email;
 	}
 
