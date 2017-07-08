@@ -20,7 +20,7 @@ import com.chinaglia.service.UserService;
 
 //implementing ErrorController to handle navigation errors better (404 etc)
 @Controller
-public class LoginController implements ErrorController {
+public class AppController implements ErrorController {
 	
     private static final String PATH = "/error";
 	
@@ -62,7 +62,7 @@ public class LoginController implements ErrorController {
 	public ModelAndView createNewSwapRequest(@Valid SwapOrig swaporig, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		swapService.saveSwap(swaporig);
-		modelAndView.addObject("successMessage", "Success! You have requested a shift swap!");
+		modelAndView.addObject("successMessage", "Success! Your shift swap request has been published!");
 		modelAndView.addObject("swaporig", new SwapOrig());
 		modelAndView.setViewName("requestaswap");
 		return modelAndView;

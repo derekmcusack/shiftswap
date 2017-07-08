@@ -13,79 +13,94 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 
 @Entity
-@Table(name = "swaporiginator")
-public class SwapOrig {
+@Table(name = "shiftswap")
+public class ShiftSwap {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "swapOrigID")
+	@Column(name = "shiftSwapID")
 	private int id;
+	@Column(name = "swapOrigID")
+	private int swap_orig_id;
 	@Column(name = "StartTime")
-	@NotEmpty(message = "*Please enter the start time")
 	private String startTime;
 	@Column(name = "FinishTime")
-	@NotEmpty(message = "*Please enter the finish time")
 	private String finishTime;
+	@Column(name = "email")
+	private String email;
 	@Column(name = "confirmed")
 	private int confirmed;
 	@Column(name = "note")
 	private String note;
+	@Column(name = "approvedBy")
+	private int approvedBy;
+	@Column(name = "disapprovedBy")
+	private int disapprovedBy;
+	
 
-	@Column(name = "email")
-	private String email;
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Users", joinColumns = @JoinColumn(name = "email"), inverseJoinColumns = @JoinColumn(name = "email"))
-
-
+	@JoinTable(name = "swaporiginator", joinColumns = @JoinColumn(name = "email"), inverseJoinColumns = @JoinColumn(name = "email"))	
+	
+	
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	public int getSwap_orig_id() {
+		return swap_orig_id;
+	}
+	public void setSwap_orig_id(int swap_orig_id) {
+		this.swap_orig_id = swap_orig_id;
+	}
 	public String getStartTime() {
 		return startTime;
 	}
-
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-
 	public String getFinishTime() {
 		return finishTime;
 	}
-
 	public void setFinishTime(String finishTime) {
 		this.finishTime = finishTime;
 	}
-
-	public int getConfirmed() {
-		return confirmed;
-	}
-
-	public void setConfirmed(int confirmed) {
-		this.confirmed = confirmed;
-	}
-	
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}	
-	
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public int getConfirmed() {
+		return confirmed;
+	}
+	public void setConfirmed(int confirmed) {
+		this.confirmed = confirmed;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
+	public int getApprovedBy() {
+		return approvedBy;
+	}
+	public void setApprovedBy(int approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+	public int getDisapprovedBy() {
+		return disapprovedBy;
+	}
+	public void setDisapprovedBy(int disapprovedBy) {
+		this.disapprovedBy = disapprovedBy;
+	}
+	
+	
+
+
+
 }
