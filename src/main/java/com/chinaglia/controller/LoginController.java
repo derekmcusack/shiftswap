@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chinaglia.model.SwapOrig;
@@ -35,19 +35,13 @@ public class LoginController implements ErrorController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("login");
 		return modelAndView;
-	}
-
-	//Gets Data From Swap Request Table	
-//	@RequestMapping(value={"/viewswaps"}, method = RequestMethod.GET)
-//	public String viewSwaps(Model model){
-//		model.addAttribute("viewswap", swapService.listAllSwaps());	
-//		return "viewswaps/list";
-//	}		
+	}	
 	
 	//Serves View Swaps page/view
 	@RequestMapping(value={"/viewswaps"}, method = RequestMethod.GET)
 	public ModelAndView viewSwaps(){
 		ModelAndView modelAndView = new ModelAndView();
+		//get a list of currently available swaps from SwapOrig entity via swap service
 		modelAndView.addObject("viewswaps", swapService.listAllSwaps());
 		return modelAndView;
 	}
@@ -73,6 +67,18 @@ public class LoginController implements ErrorController {
 		modelAndView.setViewName("requestaswap");
 		return modelAndView;
 	}	
+	
+	//Serves Accept a Swap page/view	
+	@RequestMapping(value={"/acceptswap"}, method = RequestMethod.GET)
+	public ModelAndView acceptASwap(@RequestParam("id") int swapid){
+		ModelAndView modelAndView = new ModelAndView();
+		SwapOrig originalSwap = new SwapOrig();
+		originalSwap.setId(swapid);
+		modelAndView.addObject("origswap", originalSwap);
+		modelAndView.addObject("user", new User());
+		modelAndView.setViewName("acceptswap");
+		return modelAndView;
+	}		
 	
 	//Serves User Registration page/view
 	@RequestMapping(value="/registration", method = RequestMethod.GET)
