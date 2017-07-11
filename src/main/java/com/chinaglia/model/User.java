@@ -1,5 +1,6 @@
 package com.chinaglia.model;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,8 +21,12 @@ import org.springframework.data.annotation.Transient;
 
 @Entity
 @Table(name = "Users")
-public class User {
+public class User implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4907758094962942870L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "userID")
@@ -43,6 +48,7 @@ public class User {
 	private String lastName;
 	@Column(name = "isActive")
 	private int active;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "User_Role", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "roleID"))
 	private Set<Role> roles;

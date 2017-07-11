@@ -19,6 +19,7 @@ public class ShiftSwapServiceImpl implements ShiftSwapService{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		shiftSwap.setEmail(email);
+
 		shiftSwapRepository.save(shiftSwap);
 	}
 

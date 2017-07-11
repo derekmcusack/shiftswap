@@ -2,6 +2,8 @@ package com.chinaglia.model;
 
 
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +20,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "swaporiginator")
-public class SwapOrig {
+public class SwapOrig implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6303331429337067875L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "swapOrigID")

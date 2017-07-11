@@ -8,26 +8,37 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.chinaglia.model.ShiftSwap;
 import com.chinaglia.model.SwapOrig;
 import com.chinaglia.model.User;
+import com.chinaglia.service.ShiftSwapService;
 import com.chinaglia.service.SwapService;
 import com.chinaglia.service.UserService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //implementing ErrorController to handle navigation errors better (404 etc)
 @Controller
 public class AppController implements ErrorController {
 	
     private static final String PATH = "/error";
+    
+    static final Logger LOG = LoggerFactory.getLogger(AppController.class);
 	
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private SwapService swapService;
+	@Autowired
+	private ShiftSwapService shiftSwapService;	
 
 	//Serves Login page/view	
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
@@ -72,13 +83,41 @@ public class AppController implements ErrorController {
 	@RequestMapping(value={"/acceptswap"}, method = RequestMethod.GET)
 	public ModelAndView acceptASwap(@RequestParam("id") int swapid){
 		ModelAndView modelAndView = new ModelAndView();
-		SwapOrig originalSwap = new SwapOrig();
+		SwapOrig originalSwap = new SwapOrig();		
 		originalSwap.setId(swapid);
 		modelAndView.addObject("origswap", originalSwap);
+		modelAndView.addObject("shiftSwap", new ShiftSwap());
 		modelAndView.addObject("user", new User());
 		modelAndView.setViewName("acceptswap");
 		return modelAndView;
-	}		
+	}	
+	
+	//Accept a Swap - on Submit	
+//	@RequestMapping(value={"/acceptswap?{id}"}, method = RequestMethod.POST)
+//	public ModelAndView acceptSwap(@Valid ShiftSwap shiftSwap, @PathVariable String id, BindingResult bindingResult){
+//		ModelAndView modelAndView = new ModelAndView();
+//		LOG.info("PARAM IS: "+id);
+//		shiftSwap.setSwap_orig_id(id);
+//		shiftSwapService.saveShiftSwap(shiftSwap);
+//		modelAndView.addObject("successMessage", "Success! Your offer of acceptance has been received!");
+//		modelAndView.addObject("user", new User());		
+//		modelAndView.setViewName("acceptswap?{id}");
+//		return modelAndView;
+//	}		
+	
+	
+
+	@RequestMapping(value={"/acceptswap?{id}"}, method = RequestMethod.POST)
+	public ModelAndView acceptSwap(@Valid ShiftSwap shiftSwap, @PathVariable String id,
+			BindingResult bindingResult){
+		ModelAndView modelAndView = new ModelAndView();
+		shiftSwap.setSwapOrigId(Integer.valueOf(id));
+		shiftSwapService.saveShiftSwap(shiftSwap);
+		modelAndView.addObject("successMessage", "Success! Your offer of acceptance has been received!");
+		modelAndView.addObject("user", new User());		
+		modelAndView.setViewName("acceptswap");
+		return modelAndView;
+	}			
 	
 	//Serves User Registration page/view
 	@RequestMapping(value="/registration", method = RequestMethod.GET)

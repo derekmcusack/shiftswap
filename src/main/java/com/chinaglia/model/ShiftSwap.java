@@ -2,6 +2,8 @@ package com.chinaglia.model;
 
 
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,14 +18,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "shiftswap")
-public class ShiftSwap {
+public class ShiftSwap implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2296804780039876348L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "shiftSwapID")
 	private int id;
 	@Column(name = "swapOrigID")
-	private int swap_orig_id;
+	private int swapOrigId;
 	@Column(name = "StartTime")
 	private String startTime;
 	@Column(name = "FinishTime")
@@ -50,11 +56,11 @@ public class ShiftSwap {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getSwap_orig_id() {
-		return swap_orig_id;
+	public int getSwapOrigId() {
+		return swapOrigId;
 	}
-	public void setSwap_orig_id(int swap_orig_id) {
-		this.swap_orig_id = swap_orig_id;
+	public void setSwapOrigId(int swap_orig_id) {
+		this.swapOrigId = swap_orig_id;
 	}
 	public String getStartTime() {
 		return startTime;
