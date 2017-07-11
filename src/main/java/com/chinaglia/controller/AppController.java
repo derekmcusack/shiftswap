@@ -1,5 +1,6 @@
 package com.chinaglia.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,7 @@ public class AppController implements ErrorController {
 		//get a list of currently available swaps from SwapOrig entity via swap service
 		modelAndView.addObject("viewswaps", swapService.listAllSwaps());
 		return modelAndView;
-	}
-	
+	}	
 	
 	//Serves Request a Swap page/view	
 	@RequestMapping(value={"/requestaswap"}, method = RequestMethod.GET)
@@ -81,37 +81,22 @@ public class AppController implements ErrorController {
 	
 	//Serves Accept a Swap page/view	
 	@RequestMapping(value={"/acceptswap"}, method = RequestMethod.GET)
-	public ModelAndView acceptASwap(@RequestParam("id") int swapid){
+	public ModelAndView acceptASwap(@RequestParam(value = "id", required =   
+			false) String swapid, HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
-		SwapOrig originalSwap = new SwapOrig();		
-		originalSwap.setId(swapid);
-		modelAndView.addObject("origswap", originalSwap);
+		request.getSession().setAttribute("origswapid", swapid);
 		modelAndView.addObject("shiftSwap", new ShiftSwap());
 		modelAndView.addObject("user", new User());
 		modelAndView.setViewName("acceptswap");
 		return modelAndView;
 	}	
-	
-	//Accept a Swap - on Submit	
-//	@RequestMapping(value={"/acceptswap?{id}"}, method = RequestMethod.POST)
-//	public ModelAndView acceptSwap(@Valid ShiftSwap shiftSwap, @PathVariable String id, BindingResult bindingResult){
-//		ModelAndView modelAndView = new ModelAndView();
-//		LOG.info("PARAM IS: "+id);
-//		shiftSwap.setSwap_orig_id(id);
-//		shiftSwapService.saveShiftSwap(shiftSwap);
-//		modelAndView.addObject("successMessage", "Success! Your offer of acceptance has been received!");
-//		modelAndView.addObject("user", new User());		
-//		modelAndView.setViewName("acceptswap?{id}");
-//		return modelAndView;
-//	}		
-	
-	
 
-	@RequestMapping(value={"/acceptswap?{id}"}, method = RequestMethod.POST)
-	public ModelAndView acceptSwap(@Valid ShiftSwap shiftSwap, @PathVariable String id,
+	@RequestMapping(value={"/acceptswap"}, method = RequestMethod.POST)
+	public ModelAndView acceptSwap(@Valid ShiftSwap shiftSwap, HttpServletRequest request,
 			BindingResult bindingResult){
 		ModelAndView modelAndView = new ModelAndView();
-		shiftSwap.setSwapOrigId(Integer.valueOf(id));
+		String swaporig = (String) request.getSession().getAttribute("origswapid");		
+		shiftSwap.setSwapOrigId(Integer.valueOf(swaporig));
 		shiftSwapService.saveShiftSwap(shiftSwap);
 		modelAndView.addObject("successMessage", "Success! Your offer of acceptance has been received!");
 		modelAndView.addObject("user", new User());		
