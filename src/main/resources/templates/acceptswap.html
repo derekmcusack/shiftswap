@@ -20,10 +20,20 @@
 					th:object="${shiftSwap}" method="POST" class="form-horizontal"
 					role="form">
 					<h2>Accept a Swap</h2><br /><br /><br />
+
 					<div class="form-group">
  						<div class="col-sm-9">
-						Start Time of Shift You Want To Swap 
-<!--						Original Swap ID = <br /><p th:text="${origswap.id}"></p> -->
+						Date of Shift You Want To Offer As A Swap 
+						<label th:if="${#fields.hasErrors('date')}" th:errors="*{date}"
+								class="validation-message"></label>
+						<input type="text" th:field="*{date}" placeholder="Shift Date"
+								class="form-control" /> 						
+						</div>
+					</div>
+
+					<div class="form-group">
+ 						<div class="col-sm-9">
+						Start Time
 						<label th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"
 								class="validation-message"></label>
 						<input type="text" th:field="*{startTime}" placeholder="Shift Date and Start Time"
@@ -33,7 +43,7 @@
 					
 					<div class="form-group">
 						<div class="col-sm-9">
-						Finish Time of Shift You Want To Swap
+						Finish Time
 						<label th:if="${#fields.hasErrors('finishTime')}" th:errors="*{finishTime}"
 								class="validation-message"></label>
 						<input type="text" th:field="*{finishTime}" placeholder="Shift Finish Time"

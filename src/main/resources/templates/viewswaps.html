@@ -22,6 +22,7 @@
 						<h2>Available Shift Swaps</h2>
 						<table class="table table-striped">
 							<tr>
+								<th>Date</th>
 								<th>Start</th>
 								<th>Finish</th>
 								<th>Note</th>
@@ -29,6 +30,7 @@
 								<th></th>
 							</tr>
 							<tr th:each="viewswap : ${viewswaps}">
+								<td th:text="${viewswap.Date}"></td>
 								<td th:text="${viewswap.StartTime}"></td>
 								<td th:text="${viewswap.FinishTime}"></td>
 								<td th:text="${viewswap.note}"></td>

@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 
 @Entity
 @Table(name = "shiftswap")
@@ -30,15 +32,21 @@ public class ShiftSwap implements Serializable {
 	private int id;
 	@Column(name = "swapOrigID")
 	private int swapOrigId;
+	@Column(name = "Date")
+	@NotEmpty(message = "*Please enter the date")
+	private String date;		
 	@Column(name = "StartTime")
+	@NotEmpty(message = "*Please enter the start time")
 	private String startTime;
 	@Column(name = "FinishTime")
+	@NotEmpty(message = "*Please enter the finish time")	
 	private String finishTime;
 	@Column(name = "email")
 	private String email;
 	@Column(name = "confirmed")
 	private int confirmed;
 	@Column(name = "note")
+	@NotEmpty(message = "*Please enter details of shift you wish to swap with")	
 	private String note;
 	@Column(name = "approvedBy")
 	private int approvedBy;
@@ -61,6 +69,15 @@ public class ShiftSwap implements Serializable {
 	}
 	public void setSwapOrigId(int swap_orig_id) {
 		this.swapOrigId = swap_orig_id;
+	}	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	public String getStartTime() {
 		return startTime;

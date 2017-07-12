@@ -30,6 +30,9 @@ public class SwapOrig implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "swapOrigID")
 	private int id;
+	@Column(name = "Date")
+	@NotEmpty(message = "*Please enter the date")
+	private String date;	
 	@Column(name = "StartTime")
 	@NotEmpty(message = "*Please enter the start time")
 	private String startTime;
@@ -39,6 +42,7 @@ public class SwapOrig implements Serializable {
 	@Column(name = "confirmed")
 	private int confirmed;
 	@Column(name = "note")
+	@NotEmpty(message = "*Please enter details of shift you wish to swap with")
 	private String note;
 
 	@Column(name = "email")
@@ -53,6 +57,18 @@ public class SwapOrig implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getStartTime() {
