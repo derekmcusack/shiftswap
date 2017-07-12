@@ -19,12 +19,12 @@ public class MyMailServiceImpl implements MyMailService{
 	    @Autowired
 	    private EmailService emailService;
 
-	    public void sendEmail() throws UnsupportedEncodingException {
+	    public void sendEmail(String emailAddress) throws UnsupportedEncodingException {
 	        final Email email = DefaultEmail.builder()
 	                .from(new InternetAddress("shiftswapapp@yourwork.com",
 	                        "ShiftSwap App"))
 	                .to(newArrayList(
-	                        new InternetAddress("derekmcusack@gmail.com",
+	                        new InternetAddress(emailAddress,
 	                        "You There")))
 	                .subject("Your Shift Swap Has been accepted!")
 	                .body("Log into the ShiftSwap App to check the status of your swap!")

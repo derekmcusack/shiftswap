@@ -25,11 +25,6 @@ public class SwapServiceImpl implements SwapService{
 	}
 
 	@Override
-	public SwapOrig findUserByEmail(String email) {
-		return swapRepository.findUserByEmail(email);
-	}
-
-	@Override
 	public List<SwapOrig> listAllSwaps() {
 		return swapRepository.findAll();
 	}

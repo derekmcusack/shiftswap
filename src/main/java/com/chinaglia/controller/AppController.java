@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.chinaglia.model.ShiftSwap;
 import com.chinaglia.model.SwapOrig;
 import com.chinaglia.model.User;
+import com.chinaglia.repository.SwapRepository;
 import com.chinaglia.service.ShiftSwapService;
 import com.chinaglia.service.SwapService;
 import com.chinaglia.service.UserService;
@@ -40,6 +41,8 @@ public class AppController implements ErrorController {
 	private SwapService swapService;
 	@Autowired
 	private ShiftSwapService shiftSwapService;	
+	@Autowired
+	SwapRepository swapRepo;
 
 	//Serves Login page/view	
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
@@ -84,6 +87,7 @@ public class AppController implements ErrorController {
 	public ModelAndView acceptASwap(@RequestParam(value = "id", required =   
 			false) String swapid, HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
+		//add original swapid to the session
 		request.getSession().setAttribute("origswapid", swapid);
 		modelAndView.addObject("shiftSwap", new ShiftSwap());
 		modelAndView.addObject("user", new User());
@@ -95,10 +99,16 @@ public class AppController implements ErrorController {
 	public ModelAndView acceptSwap(@Valid ShiftSwap shiftSwap, HttpServletRequest request,
 			BindingResult bindingResult){
 		ModelAndView modelAndView = new ModelAndView();
-		String swaporig = (String) request.getSession().getAttribute("origswapid");		
+		//retrieve the swapid of the initiated swap request
+		String swaporig = (String) request.getSession().getAttribute("origswapid");	
+		//set this id in the object
 		shiftSwap.setSwapOrigId(Integer.valueOf(swaporig));
-		shiftSwapService.saveShiftSwap(shiftSwap);
-		modelAndView.addObject("successMessage", "Success! Your offer of acceptance has been received!");
+		//run query via Repository class to get email of user who initiated swap request
+		String emailToSendTo = swapRepo.findUsersEmail(Integer.valueOf(swaporig));
+		//save the shift swap, passing in the object and the email of the originator
+		shiftSwapService.saveShiftSwap(shiftSwap, emailToSendTo);
+		modelAndView.addObject("successMessage", 	
+				"Your offer of acceptance has been received and your colleague was notified!");
 		modelAndView.addObject("user", new User());		
 		modelAndView.setViewName("acceptswap");
 		return modelAndView;

@@ -22,16 +22,18 @@ public class ShiftSwapServiceImpl implements ShiftSwapService{
 	private ShiftSwapRepository shiftSwapRepository;	
 	
 	@Override
-	public void saveShiftSwap(ShiftSwap shiftSwap){
+	public void saveShiftSwap(ShiftSwap shiftSwap, String emailToSendTo){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		shiftSwap.setEmail(email);
 		shiftSwapRepository.save(shiftSwap);
-		try {
-			mailService.sendEmail();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+		
+		//send email notification - ***commented out for testing purposes***
+//		try {
+//			mailService.sendEmail(emailToSendTo);
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }

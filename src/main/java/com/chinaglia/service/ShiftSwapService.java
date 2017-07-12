@@ -4,5 +4,5 @@ import com.chinaglia.model.ShiftSwap;
 
 public interface ShiftSwapService {
 
-	public void saveShiftSwap(ShiftSwap shiftSwap);
+	public void saveShiftSwap(ShiftSwap shiftSwap, String emailToSendTo);
 }
