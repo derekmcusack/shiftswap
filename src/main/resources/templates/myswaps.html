@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>My Shift Swaps</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<form th:action="@{/home}" method="get">
+		<button class="btn btn-md btn-warning btn-block" type="Submit">Go Home</button>
+	</form>	
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+
+					<br /><br />
+					Add controller method which adds list to modelandview
+					
+					
+					<div th:if="${not #lists.isEmpty(myswaps)}">
+						<h2>Available Shift Swaps</h2>
+						<table class="table table-striped">
+							<tr>
+								<th>Shift Date</th>
+								<th>Shift Start</th>
+								<th>Shift Finish</th>
+								<th>Shift Email</th>
+								<th>Swap Date</th>
+								<th>Swap Start</th>
+								<th>Swap Finish</th>
+								<th>Swap Email</th>
+								<th></th>
+							</tr>
+							<tr th:each="myswap : ${myswaps}">
+								<td th:text="${myswap.Date}"></td>
+								<td th:text="${myswap.StartTime}"></td>
+								<td th:text="${myswap.FinishTime}"></td>
+								<td th:text="${myswap.note}"></td>
+								<td th:text="${myswap.email}"></td>
+								<td><a th:href="@{/confirmswap(id=${myswap.id})}">Confirm</a></td>
+							</tr>
+						
+						</table>
+					</div>					
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

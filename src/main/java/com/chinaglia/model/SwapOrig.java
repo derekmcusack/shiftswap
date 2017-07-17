@@ -4,16 +4,7 @@ package com.chinaglia.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -26,31 +17,38 @@ public class SwapOrig implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6303331429337067875L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "swapOrigID")
 	private int id;
+	
 	@Column(name = "Date")
 	@NotEmpty(message = "*Please enter the date")
 	private String date;	
+	
 	@Column(name = "StartTime")
 	@NotEmpty(message = "*Please enter the start time")
 	private String startTime;
+	
 	@Column(name = "FinishTime")
 	@NotEmpty(message = "*Please enter the finish time")
 	private String finishTime;
+	
 	@Column(name = "confirmed")
 	private int confirmed;
+	
 	@Column(name = "note")
 	@NotEmpty(message = "*Please enter details of shift you wish to swap with")
 	private String note;
 
 	@Column(name = "email")
 	private String email;
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Users", joinColumns = @JoinColumn(name = "email"), inverseJoinColumns = @JoinColumn(name = "email"))
 
-
+    @OneToOne(cascade = CascadeType.ALL) 
+    @JoinColumn(name = "swapOrigID")  
+	private ShiftSwap shiftSwapInfo;
+	
 	public int getId() {
 		return id;
 	}
@@ -110,4 +108,14 @@ public class SwapOrig implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+      
+	public ShiftSwap getShiftSwapInfo() {
+		return shiftSwapInfo;
+	}
+
+	public void setShiftSwap(ShiftSwap shiftSwapInfo) {
+		this.shiftSwapInfo = shiftSwapInfo;
+	}
+	
+
 }

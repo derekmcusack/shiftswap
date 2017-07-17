@@ -1,6 +1,7 @@
 package com.chinaglia.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -8,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.chinaglia.model.ShiftSwap;
+import com.chinaglia.model.SwapOrig;
 import com.chinaglia.repository.ShiftSwapRepository;
 
 import it.ozimov.springboot.mail.configuration.EnableEmailTools;
@@ -34,6 +36,10 @@ public class ShiftSwapServiceImpl implements ShiftSwapService{
 //		} catch (UnsupportedEncodingException e) {
 //			e.printStackTrace();
 //		}
+	}
+	
+	public List<ShiftSwap> listAllSwaps(){
+		return shiftSwapRepository.findMySwaps();
 	}
 
 }

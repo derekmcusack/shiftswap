@@ -61,6 +61,15 @@ public class AppController implements ErrorController {
 		return modelAndView;
 	}	
 	
+	//Serves View Swaps page/view
+	@RequestMapping(value={"/myswaps"}, method = RequestMethod.GET)
+	public ModelAndView mySwaps(){
+		ModelAndView modelAndView = new ModelAndView();
+		//get a list of user's swaps
+		modelAndView.addObject("myswaps", shiftSwapService.listAllSwaps());
+		return modelAndView;
+	}	 
+	
 	//Serves Request a Swap page/view	
 	@RequestMapping(value={"/requestaswap"}, method = RequestMethod.GET)
 	public ModelAndView requestASwap(){

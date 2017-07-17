@@ -32,4 +32,5 @@ public class MyMailServiceImpl implements MyMailService{
 
 	        emailService.send(email);
 	    }
+	   
 }	    
