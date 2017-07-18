@@ -11,7 +11,7 @@ import com.chinaglia.model.ShiftSwap;
 @Repository("shiftSwapRepository")
 public interface ShiftSwapRepository extends JpaRepository<ShiftSwap, Integer> {
 
-    String MYSWAPSQUERY = "SELECT t from SwapOrig t inner join t.shiftSwapInfo";
+    String MYSWAPSQUERY = "SELECT orig, swap from SwapOrig orig inner join orig.shiftSwapInfo swap";
 	
 	@Query(MYSWAPSQUERY)
     List<ShiftSwap> findMySwaps();	

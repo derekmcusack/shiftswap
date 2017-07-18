@@ -26,24 +26,24 @@ public class ShiftSwap implements Serializable {
 	@Column(name = "swapOrigID")
 	private int swapOrigId;
 	
-	@Column(name = "Date")
+	@Column(name = "date")
 	@NotEmpty(message = "*Please enter the date")
-	private String date;		
+	private String swapDate;		
 	
-	@Column(name = "StartTime")
+	@Column(name = "startTime")
 	@NotEmpty(message = "*Please enter the start time")
-	private String startTime;
+	private String swapStartTime;
 	
-	@Column(name = "FinishTime")
+	@Column(name = "finishTime")
 	@NotEmpty(message = "*Please enter the finish time")	
-	private String finishTime;
+	private String swapFinishTime;
 
 	@Column(name = "confirmed")
-	private int confirmed;
+	private int swapConfirmed;
 	
 	@Column(name = "note")
 	@NotEmpty(message = "*Please enter details of shift you wish to swap with")	
-	private String note;
+	private String swapNote;
 	
 	@Column(name = "approvedBy")
 	private int approvedBy;
@@ -52,8 +52,9 @@ public class ShiftSwap implements Serializable {
 	private int disapprovedBy;	
 	
 	@Column(name = "email")
-	private String email;	
+	private String swappersEmail;	
 	
+	@OneToOne(mappedBy="shiftSwapInfo")
 	private SwapOrig swapOrigInfo; 
 	
 	public int getId() {
@@ -68,44 +69,44 @@ public class ShiftSwap implements Serializable {
 	public void setSwapOrigId(int swap_orig_id) {
 		this.swapOrigId = swap_orig_id;
 	}	
-	public String getDate() {
-		return date;
+	public String getSwapDate() {
+		return swapDate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setSwapDate(String swapDate) {
+		this.swapDate = swapDate;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public String getStartTime() {
-		return startTime;
+	public String getSwapStartTime() {
+		return swapStartTime;
 	}
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
+	public void setSwapStartTime(String swapStartTime) {
+		this.swapStartTime = swapStartTime;
 	}
-	public String getFinishTime() {
-		return finishTime;
+	public String getSwapFinishTime() {
+		return swapFinishTime;
 	}
-	public void setFinishTime(String finishTime) {
-		this.finishTime = finishTime;
+	public void setSwapFinishTime(String swapFinishTime) {
+		this.swapFinishTime = swapFinishTime;
 	}
-	public String getEmail() {
-		return email;
+	public String getSwapEmail() {
+		return swappersEmail;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setSwapEmail(String swappersEmail) {
+		this.swappersEmail = swappersEmail;
 	}
-	public int getConfirmed() {
-		return confirmed;
+	public int getSwapConfirmed() {
+		return swapConfirmed;
 	}
-	public void setConfirmed(int confirmed) {
-		this.confirmed = confirmed;
+	public void setSwapConfirmed(int swapConfirmed) {
+		this.swapConfirmed = swapConfirmed;
 	}
-	public String getNote() {
-		return note;
+	public String getSwapNote() {
+		return swapNote;
 	}
-	public void setNote(String note) {
-		this.note = note;
+	public void setSwapNote(String swapNote) {
+		this.swapNote = swapNote;
 	}
 	public int getApprovedBy() {
 		return approvedBy;
@@ -120,7 +121,6 @@ public class ShiftSwap implements Serializable {
 		this.disapprovedBy = disapprovedBy;
 	}
 	
-	@OneToOne(mappedBy="shiftSwapInfo")
 	public SwapOrig getSwapOrigInfo() {
 		return swapOrigInfo;
 	}

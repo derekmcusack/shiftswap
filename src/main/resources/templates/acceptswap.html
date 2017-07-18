@@ -24,9 +24,9 @@
 					<div class="form-group">
  						<div class="col-sm-9">
 						Date of Shift You Want To Offer As A Swap 
-						<label th:if="${#fields.hasErrors('date')}" th:errors="*{date}"
+						<label th:if="${#fields.hasErrors('swapDate')}" th:errors="*{swapDate}"
 								class="validation-message"></label>
-						<input type="text" th:field="*{date}" placeholder="Shift Date"
+						<input type="text" th:field="*{swapDate}" placeholder="Shift Date"
 								class="form-control" /> 						
 						</div>
 					</div>
@@ -34,9 +34,9 @@
 					<div class="form-group">
  						<div class="col-sm-9">
 						Start Time
-						<label th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"
+						<label th:if="${#fields.hasErrors('swapStartTime')}" th:errors="*{swapStartTime}"
 								class="validation-message"></label>
-						<input type="text" th:field="*{startTime}" placeholder="Shift Date and Start Time"
+						<input type="text" th:field="*{swapStartTime}" placeholder="Shift Date and Start Time"
 								class="form-control" /> 						
 						</div>
 					</div>
@@ -44,9 +44,9 @@
 					<div class="form-group">
 						<div class="col-sm-9">
 						Finish Time
-						<label th:if="${#fields.hasErrors('finishTime')}" th:errors="*{finishTime}"
+						<label th:if="${#fields.hasErrors('swapFinishTime')}" th:errors="*{swapFinishTime}"
 								class="validation-message"></label>
-						<input type="text" th:field="*{finishTime}" placeholder="Shift Finish Time"
+						<input type="text" th:field="*{swapFinishTime}" placeholder="Shift Finish Time"
 								class="form-control" /> 
 						</div>
 					</div>		
@@ -54,9 +54,9 @@
 					<div class="form-group">
 						<div class="col-sm-9">
 						Note (if extra hours please state here)
-						<label th:if="${#fields.hasErrors('note')}" th:errors="*{note}"
+						<label th:if="${#fields.hasErrors('swapNote')}" th:errors="*{swapNote}"
 								class="validation-message"></label>
-						<input type="text" th:field="*{note}" placeholder="Type Here"
+						<input type="text" th:field="*{swapNote}" placeholder="Type Here"
 								class="form-control" /> 
 						</div>
 					</div>										

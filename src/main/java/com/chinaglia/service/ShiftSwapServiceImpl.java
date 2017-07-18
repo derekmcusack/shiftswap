@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.chinaglia.model.ShiftSwap;
-import com.chinaglia.model.SwapOrig;
 import com.chinaglia.repository.ShiftSwapRepository;
 
 import it.ozimov.springboot.mail.configuration.EnableEmailTools;
@@ -27,7 +26,7 @@ public class ShiftSwapServiceImpl implements ShiftSwapService{
 	public void saveShiftSwap(ShiftSwap shiftSwap, String emailToSendTo){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
-		shiftSwap.setEmail(email);
+		shiftSwap.setSwapEmail(email);
 		shiftSwapRepository.save(shiftSwap);
 		
 		//send email notification - ***commented out for testing purposes***

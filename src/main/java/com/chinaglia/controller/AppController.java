@@ -1,5 +1,7 @@
 package com.chinaglia.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -66,7 +68,8 @@ public class AppController implements ErrorController {
 	public ModelAndView mySwaps(){
 		ModelAndView modelAndView = new ModelAndView();
 		//get a list of user's swaps
-		modelAndView.addObject("myswaps", shiftSwapService.listAllSwaps());
+		modelAndView.addObject("myswaps", swapService.listAllSwaps());
+		List<SwapOrig> list = swapService.listAllSwaps();
 		return modelAndView;
 	}	 
 	

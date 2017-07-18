@@ -18,21 +18,20 @@
 			<div class="col-md-6 col-md-offset-3">
 
 					<br /><br />
-					Add controller method which adds list to modelandview
 					
 					
 					<div th:if="${not #lists.isEmpty(myswaps)}">
-						<h2>Available Shift Swaps</h2>
+						<h2>Your Shift Swaps</h2>
 						<table class="table table-striped">
 							<tr>
 								<th>Shift Date</th>
 								<th>Shift Start</th>
 								<th>Shift Finish</th>
-								<th>Shift Email</th>
+								<th>Shift Note</th>
 								<th>Swap Date</th>
 								<th>Swap Start</th>
 								<th>Swap Finish</th>
-								<th>Swap Email</th>
+								<th>Swap Note</th>
 								<th></th>
 							</tr>
 							<tr th:each="myswap : ${myswaps}">
@@ -40,7 +39,10 @@
 								<td th:text="${myswap.StartTime}"></td>
 								<td th:text="${myswap.FinishTime}"></td>
 								<td th:text="${myswap.note}"></td>
-								<td th:text="${myswap.email}"></td>
+								<td th:text="${myswap.shiftSwapInfo != null ? myswap.shiftSwapInfo.swapDate : 'NOT FOUND'}"/>
+								<td th:text="${myswap.shiftSwapInfo != null ? myswap.shiftSwapInfo.swapStartTime : 'NOT FOUND'}"/>
+								<td th:text="${myswap.shiftSwapInfo != null ? myswap.shiftSwapInfo.swapFinishTime : 'NOT FOUND'}"/>
+								<td th:text="${myswap.shiftSwapInfo != null ? myswap.shiftSwapInfo.swapNote : 'NOT FOUND'}"/>																																	
 								<td><a th:href="@{/confirmswap(id=${myswap.id})}">Confirm</a></td>
 							</tr>
 						
