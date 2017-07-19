@@ -38,7 +38,7 @@ public class ShiftSwapServiceImpl implements ShiftSwapService{
 	}
 	
 	public List<ShiftSwap> listAllSwaps(){
-		return shiftSwapRepository.findMySwaps();
+		return shiftSwapRepository.findAll();
 	}
 
 }

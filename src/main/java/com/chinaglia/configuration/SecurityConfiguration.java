@@ -51,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/home").permitAll()
 				.antMatchers("/requestaswap").hasAuthority("USER")
 				.antMatchers("/viewswaps").hasAuthority("USER")
+				.antMatchers("/myswaps").hasAuthority("USER")
 				.antMatchers("/acceptaswap").hasAuthority("USER")
 				.antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
 				.authenticated().and().csrf().disable().formLogin()
