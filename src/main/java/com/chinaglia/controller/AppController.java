@@ -69,7 +69,7 @@ public class AppController implements ErrorController {
 		ModelAndView modelAndView = new ModelAndView();
 		//get a list of user's swaps
 		modelAndView.addObject("myswaps", swapService.listAllSwaps());
-		List<ShiftSwap> list = shiftSwapService.listAllSwaps();
+		List<SwapOrig> list = swapService.listAllSwaps();
 		return modelAndView;
 	}	 
 	
