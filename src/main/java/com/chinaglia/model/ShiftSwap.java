@@ -54,9 +54,6 @@ public class ShiftSwap implements Serializable {
 	@Column(name = "email")
 	private String swappersEmail;	
 	
-	@OneToOne(mappedBy="shiftSwapInfo")
-	private SwapOrig swapOrigInfo; 
-	
 	public int getId() {
 		return id;
 	}
@@ -120,12 +117,5 @@ public class ShiftSwap implements Serializable {
 	public void setDisapprovedBy(int disapprovedBy) {
 		this.disapprovedBy = disapprovedBy;
 	}
-	
-	public SwapOrig getSwapOrigInfo() {
-		return swapOrigInfo;
-	}
-	public void setSwapOrig(SwapOrig swapOrigInfo) {
-		this.swapOrigInfo = swapOrigInfo;
-	}
-	
+
 }

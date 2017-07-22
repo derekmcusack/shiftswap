@@ -16,11 +16,12 @@ public class SwapOrig implements Serializable {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 6303331429337067875L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "swapOrigID")
+	@Column(name = "swap_origid")
 	private int id;
 	
 	@Column(name = "Date")
@@ -45,9 +46,33 @@ public class SwapOrig implements Serializable {
 	@Column(name = "email")
 	private String email;
 
-    @OneToOne(cascade = CascadeType.ALL) 
-    @JoinColumn(name = "swapOrigID")  
-	private ShiftSwap shiftSwapInfo;
+	@Column(name = "swap_date")
+	private String swapDate;		
+	
+	@Column(name = "swap_startTime")
+	private String swapStartTime;
+	
+	@Column(name = "swap_finishTime")
+	private String swapFinishTime;
+
+	@Column(name = "swap_confirmed")
+	private int swapConfirmed;
+	
+	@Column(name = "swap_note")
+	private String swapNote;
+	
+	@Column(name = "approvedBy")
+	private int approvedBy;
+	
+	@Column(name = "disapprovedBy")
+	private int disapprovedBy;	
+	
+	@Column(name = "swap_email")
+	private String swappersEmail;	
+	
+//	@Column(name = "swapOriginalID")
+//	private int swapOriginalId;	
+	
 	
 	public int getId() {
 		return id;
@@ -108,14 +133,80 @@ public class SwapOrig implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-      
-	public ShiftSwap getShiftSwapInfo() {
-		return shiftSwapInfo;
+
+	public String getSwapDate() {
+		return swapDate;
 	}
 
-	public void setShiftSwap(ShiftSwap shiftSwapInfo) {
-		this.shiftSwapInfo = shiftSwapInfo;
+	public void setSwapDate(String swapDate) {
+		this.swapDate = swapDate;
 	}
+
+	public String getSwapStartTime() {
+		return swapStartTime;
+	}
+
+	public void setSwapStartTime(String swapStartTime) {
+		this.swapStartTime = swapStartTime;
+	}
+
+	public String getSwapFinishTime() {
+		return swapFinishTime;
+	}
+
+	public void setSwapFinishTime(String swapFinishTime) {
+		this.swapFinishTime = swapFinishTime;
+	}
+
+	public int getSwapConfirmed() {
+		return swapConfirmed;
+	}
+
+	public void setSwapConfirmed(int swapConfirmed) {
+		this.swapConfirmed = swapConfirmed;
+	}
+
+	public String getSwapNote() {
+		return swapNote;
+	}
+
+	public void setSwapNote(String swapNote) {
+		this.swapNote = swapNote;
+	}
+
+	public int getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(int approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+
+	public int getDisapprovedBy() {
+		return disapprovedBy;
+	}
+
+	public void setDisapprovedBy(int disapprovedBy) {
+		this.disapprovedBy = disapprovedBy;
+	}
+
+	public String getSwappersEmail() {
+		return swappersEmail;
+	}
+
+	public void setSwappersEmail(String swappersEmail) {
+		this.swappersEmail = swappersEmail;
+	}
+
+//	public int getSwapOriginalId() {
+//		return swapOriginalId;
+//	}
+//
+//	public void setSwapOriginalId(int swapOriginalId) {
+//		this.swapOriginalId = swapOriginalId;
+//	}
+      
+
 	
 
 }

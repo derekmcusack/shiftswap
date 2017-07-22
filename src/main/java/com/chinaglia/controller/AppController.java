@@ -98,27 +98,38 @@ public class AppController implements ErrorController {
 	@RequestMapping(value={"/acceptswap"}, method = RequestMethod.GET)
 	public ModelAndView acceptASwap(@RequestParam(value = "id", required =   
 			false) String swapid, HttpServletRequest request){
+
+		SwapOrig swapOrig = swapService.getSwapOrigById(Integer.valueOf(swapid));	
 		ModelAndView modelAndView = new ModelAndView();
 		//add original swapid to the session
-		request.getSession().setAttribute("origswapid", swapid);
-		modelAndView.addObject("shiftSwap", new ShiftSwap());
+		request.getSession().setAttribute("origswapid", swapid);	
+		modelAndView.addObject("swapOrig", swapOrig);
 		modelAndView.addObject("user", new User());
 		modelAndView.setViewName("acceptswap");
 		return modelAndView;
 	}	
 
 	@RequestMapping(value={"/acceptswap"}, method = RequestMethod.POST)
-	public ModelAndView acceptSwap(@Valid ShiftSwap shiftSwap, HttpServletRequest request,
+	public ModelAndView acceptSwap(SwapOrig swapOrig, HttpServletRequest request,
 			BindingResult bindingResult){
 		ModelAndView modelAndView = new ModelAndView();
 		//retrieve the swapid of the initiated swap request
-		String swaporig = (String) request.getSession().getAttribute("origswapid");	
+		String swaporigid = (String) request.getSession().getAttribute("origswapid");	
+		
+
+//		swapOrig = swapRepo.findOne(Integer.valueOf(swaporigid));
+		
+		modelAndView.addObject(swapOrig);
+
+		
+		//SET EXTRA ATTRIBUTES IN SWAPORIG THEN SAVE UPDATED OBJECT USING METHOD IN SERVICE CLASS
+		
 		//set this id in the object
-		shiftSwap.setSwapOrigId(Integer.valueOf(swaporig));
+//		swapOrig.setId(Integer.valueOf(swaporigid));
 		//run query via Repository class to get email of user who initiated swap request
-		String emailToSendTo = swapRepo.findUsersEmail(Integer.valueOf(swaporig));
+		String emailToSendTo = swapRepo.findUsersEmail(Integer.valueOf(swaporigid));
 		//save the shift swap, passing in the object and the email of the originator
-		shiftSwapService.saveShiftSwap(shiftSwap, emailToSendTo);
+		swapService.saveShiftSwap(swapOrig, emailToSendTo);
 		modelAndView.addObject("successMessage", 	
 				"Your offer of acceptance has been received and your colleague was notified!");
 		modelAndView.addObject("user", new User());		
