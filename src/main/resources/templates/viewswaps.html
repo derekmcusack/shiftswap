@@ -19,7 +19,8 @@
 
 					<br /><br />
 					<div th:if="${not #lists.isEmpty(viewswaps)}">
-						<h2>Available Shift Swaps</h2>
+						<h2>Shift Swaps</h2>
+						<h4>(You can only accept swaps which are still available)</h4>
 						<table class="table table-striped">
 							<tr>
 								<th>Date</th>
@@ -35,7 +36,9 @@
 								<td th:text="${viewswap.FinishTime}"></td>
 								<td th:text="${viewswap.note}"></td>
 								<td th:text="${viewswap.email}"></td>
-								<td><a th:href="@{/acceptswap(id=${viewswap.id})}">Accept</a></td>
+								<td th:if="${viewswap.swapStartTime == null}">
+									<a th:href="@{/acceptswap(id=${viewswap.id})}">Accept</a>
+								</td>
 							</tr>
 						
 						</table>

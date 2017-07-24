@@ -1,5 +1,6 @@
 package com.chinaglia.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.chinaglia.model.ShiftSwap;
 import com.chinaglia.model.SwapOrig;
 import com.chinaglia.model.User;
 import com.chinaglia.repository.SwapRepository;
+import com.chinaglia.service.MyMailService;
 import com.chinaglia.service.ShiftSwapService;
 import com.chinaglia.service.SwapService;
 import com.chinaglia.service.UserService;
@@ -42,9 +45,11 @@ public class AppController implements ErrorController {
 	@Autowired
 	private SwapService swapService;
 	@Autowired
-	private ShiftSwapService shiftSwapService;	
+	private MyMailService mailService;
 	@Autowired
 	SwapRepository swapRepo;
+	
+
 	
 
 
@@ -61,7 +66,8 @@ public class AppController implements ErrorController {
 	public ModelAndView viewSwaps(){
 		ModelAndView modelAndView = new ModelAndView();
 		//get a list of currently available swaps from SwapOrig entity via swap service
-		modelAndView.addObject("viewswaps", swapService.listAllSwaps());
+		List<SwapOrig> swaps = swapService.listAllSwaps();
+		modelAndView.addObject("viewswaps", swaps);
 		return modelAndView;
 	}	
 	
@@ -122,16 +128,11 @@ public class AppController implements ErrorController {
 		//retrieve the swapid of the initiated swap request
 		String swaporigid = (String) request.getSession().getAttribute("origswapid");	
 		
-
-//		swapOrig = swapRepo.findOne(Integer.valueOf(swaporigid));
-		
 		modelAndView.addObject(swapOrig);
 
-		
-		//SET EXTRA ATTRIBUTES IN SWAPORIG THEN SAVE UPDATED OBJECT USING METHOD IN SERVICE CLASS
-		
 		//set this id in the object
 //		swapOrig.setId(Integer.valueOf(swaporigid));
+		
 		//run query via Repository class to get email of user who initiated swap request
 		String emailToSendTo = swapRepo.findUsersEmail(Integer.valueOf(swaporigid));
 		//save the shift swap, passing in the object and the email of the originator
@@ -199,10 +200,41 @@ public class AppController implements ErrorController {
 		} else {
 			modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
 			modelAndView.addObject("userMessage","Normal Users Page");
-			modelAndView.setViewName("/home");
+			modelAndView.setViewName("home");
 		}
 		return modelAndView;
 	}	
+	
+	@RequestMapping(value = "/confirmswap", method = RequestMethod.GET)
+	public ModelAndView afterConfirmSwap(@Valid SwapOrig swapOrig, BindingResult bindingResult,
+			@RequestParam(value="id", required=true) String id) throws UnsupportedEncodingException {
+		ModelAndView modelAndView = new ModelAndView();
+		int intId = Integer.valueOf(id);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();		
+		String email = auth.getName();
+		SwapOrig origSwap = swapRepo.getOne(intId);
+		boolean isOriginator = swapService.isUserOriginator(intId, email);
+		if(isOriginator == true){
+			origSwap.setConfirmed(1);
+		} else {
+			origSwap.setSwapConfirmed(1);
+		}
+//		try{
+//			mailService.sendConfirmedEmail(email);
+//		}catch(UnsupportedEncodingException e){
+//			LOG.error("mail not sent");
+//		}
+		swapRepo.save(origSwap);
+
+		List<SwapOrig> mySwaps = swapService.listMySwaps(email);
+		if(mySwaps !=null){
+		modelAndView.addObject("myswaps", mySwaps);
+		}		
+
+		modelAndView.setViewName("myswaps");		
+		return modelAndView;
+	}		
+	
 	
 	//error handling
     @RequestMapping(value = PATH)

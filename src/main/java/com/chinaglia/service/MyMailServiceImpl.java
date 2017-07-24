@@ -19,7 +19,7 @@ public class MyMailServiceImpl implements MyMailService{
 	    @Autowired
 	    private EmailService emailService;
 
-	    public void sendEmail(String emailAddress) throws UnsupportedEncodingException {
+	    public void sendAcceptedEmail(String emailAddress) throws UnsupportedEncodingException {
 	        final Email email = DefaultEmail.builder()
 	                .from(new InternetAddress("shiftswapapp@yourwork.com",
 	                        "ShiftSwap App"))
@@ -32,5 +32,19 @@ public class MyMailServiceImpl implements MyMailService{
 
 	        emailService.send(email);
 	    }
+	    
+	    public void sendConfirmedEmail(String emailAddress) throws UnsupportedEncodingException {
+	        final Email email = DefaultEmail.builder()
+	                .from(new InternetAddress("shiftswapapp@yourwork.com",
+	                        "ShiftSwap App"))
+	                .to(newArrayList(
+	                        new InternetAddress(emailAddress,
+	                        "You There")))
+	                .subject("Your Shift Swap Has been confirmed by the other party!")
+	                .body("Log into the ShiftSwap App to check the status of your swap!")
+	                .encoding("UTF-8").build();
+
+	        emailService.send(email);
+	    }	    
 	   
 }	    

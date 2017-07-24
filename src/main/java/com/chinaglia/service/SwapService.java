@@ -11,5 +11,5 @@ public interface SwapService {
 	public void saveShiftSwap(SwapOrig swapOrig, String emailToSendTo);
 	public SwapOrig getSwapOrigById(int id);
 	public List<SwapOrig> listMySwaps(String email);
-	
+	public boolean isUserOriginator(int id, String email);
 }

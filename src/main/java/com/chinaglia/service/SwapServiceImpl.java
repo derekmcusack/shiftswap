@@ -1,5 +1,6 @@
 package com.chinaglia.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,9 @@ public class SwapServiceImpl implements SwapService{
 	@Autowired
 	private EntityManager entityManager;
 	
+	@Autowired
+	private MyMailService mailService;
+	
 	private Session getSession(){
 		return entityManager.unwrap(Session.class);
 	}
@@ -49,6 +53,17 @@ public class SwapServiceImpl implements SwapService{
 	}	
 	
 	@Override
+	public boolean isUserOriginator(int id, String email){
+		SwapOrig one = swapRepository.findOne(id);
+		if(one.getEmail() == email){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	@Override
 	public SwapOrig getSwapOrigById(int id){
 		Session session = getSession();	
 		SwapOrig swapOrig = session.load(SwapOrig.class, id);
@@ -64,10 +79,11 @@ public class SwapServiceImpl implements SwapService{
 		swapRepository.save(swapOrig);
 		
 		//send email notification - ***commented out for testing purposes***
-//		try {
-//			mailService.sendEmail(emailToSendTo);
+//			try {
+//			mailService.sendAcceptedEmail(emailToSendTo);
 //		} catch (UnsupportedEncodingException e) {
 //			e.printStackTrace();
-//		}
+//		}	
 	}	
+
 }

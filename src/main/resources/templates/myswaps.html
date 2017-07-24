@@ -39,11 +39,13 @@
 								<td th:text="${myswap.StartTime}"></td>
 								<td th:text="${myswap.FinishTime}"></td>
 								<td th:text="${myswap.note}"></td>
-								<td th:text="${myswap != null ? myswap.swapDate : 'NOT FOUND'}"/>
-								<td th:text="${myswap != null ? myswap.swapStartTime : 'NOT FOUND'}"/>
-								<td th:text="${myswap != null ? myswap.swapFinishTime : 'NOT FOUND'}"/>
-								<td th:text="${myswap != null ? myswap.swapNote : 'NOT FOUND'}"/>																																	
-								<td><a th:href="@{/confirmswap(id=${myswap.id})}">Confirm</a></td>
+								<td th:text="${myswap.swapDate != null ? myswap.swapDate : 'NO OFFER'}"/>
+								<td th:text="${myswap.swapStartTime != null ? myswap.swapStartTime : 'NO OFFER'}"/>
+								<td th:text="${myswap.swapFinishTime != null ? myswap.swapFinishTime : 'NO OFFER'}"/>
+								<td th:text="${myswap.swapNote != null ? myswap.swapNote : 'NO OFFER'}"/>																																	
+								<td th:if="${myswap.swapStartTime != null and myswap.swapConfirmed != 1 and myswap.confirmed != 1}">
+									<a th:href="@{/confirmswap(id=${myswap.id})}">Confirm</a>
+								</td>
 							</tr>
 						
 						</table>
