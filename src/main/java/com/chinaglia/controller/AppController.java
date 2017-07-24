@@ -45,6 +45,8 @@ public class AppController implements ErrorController {
 	private ShiftSwapService shiftSwapService;	
 	@Autowired
 	SwapRepository swapRepo;
+	
+
 
 	//Serves Login page/view	
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
@@ -67,9 +69,13 @@ public class AppController implements ErrorController {
 	@RequestMapping(value={"/myswaps"}, method = RequestMethod.GET)
 	public ModelAndView mySwaps(){
 		ModelAndView modelAndView = new ModelAndView();
-		//get a list of user's swaps
-		modelAndView.addObject("myswaps", swapService.listAllSwaps());
-		List<SwapOrig> list = swapService.listAllSwaps();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();		
+		String userEmail = auth.getName();
+		//get a list of user's swaps and add to model and view
+		List<SwapOrig> mySwaps = swapService.listMySwaps(userEmail);
+		if(mySwaps !=null){
+		modelAndView.addObject("myswaps", mySwaps);
+		}
 		return modelAndView;
 	}	 
 	

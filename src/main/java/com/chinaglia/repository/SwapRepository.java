@@ -1,5 +1,7 @@
 package com.chinaglia.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +14,8 @@ public interface SwapRepository extends JpaRepository<SwapOrig, Integer> {
 	
     @Query("SELECT t.email FROM SwapOrig t where t.id = :id") 
     String findUsersEmail(@Param("id") int id);
+    
+    @Query("select s from SwapOrig s "
+    		+ "where s.swappersEmail = :email or s.email = :email")
+    List<SwapOrig> findMySwaps(@Param("email") String email);
 }

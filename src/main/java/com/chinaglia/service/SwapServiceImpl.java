@@ -44,6 +44,11 @@ public class SwapServiceImpl implements SwapService{
 	}
 	
 	@Override
+	public List<SwapOrig> listMySwaps(String email) {
+		return swapRepository.findMySwaps(email);
+	}	
+	
+	@Override
 	public SwapOrig getSwapOrigById(int id){
 		Session session = getSession();	
 		SwapOrig swapOrig = session.load(SwapOrig.class, id);

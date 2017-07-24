@@ -10,5 +10,6 @@ public interface SwapService {
 	public List<SwapOrig> listAllSwaps();
 	public void saveShiftSwap(SwapOrig swapOrig, String emailToSendTo);
 	public SwapOrig getSwapOrigById(int id);
+	public List<SwapOrig> listMySwaps(String email);
 	
 }
