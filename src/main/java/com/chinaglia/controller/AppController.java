@@ -48,11 +48,8 @@ public class AppController implements ErrorController {
 	private MyMailService mailService;
 	@Autowired
 	SwapRepository swapRepo;
-	
 
 	
-
-
 	//Serves Login page/view	
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
 	public ModelAndView login(){
@@ -126,8 +123,7 @@ public class AppController implements ErrorController {
 			BindingResult bindingResult){
 		ModelAndView modelAndView = new ModelAndView();
 		//retrieve the swapid of the initiated swap request
-		String swaporigid = (String) request.getSession().getAttribute("origswapid");	
-		
+		String swaporigid = (String) request.getSession().getAttribute("origswapid");			
 		modelAndView.addObject(swapOrig);
 
 		//set this id in the object
@@ -194,6 +190,14 @@ public class AppController implements ErrorController {
 		//what role is the user?
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
+		String email = user.getEmail();
+		//update triggers in database so user can't accept own swaps or
+		//confirm swaps which were already confirmed
+		swapService.updateUsersSwapStatus(email);	
+		
+		//update database trigger fields for swaps which user is not involved in
+		swapService.updateOtherSwapStatus(email);
+		
 		//if user is Admin
 		if(auth.getAuthorities().toString().equals("[ADMIN]")){
 			modelAndView = new ModelAndView("redirect:/admin/home");
@@ -216,21 +220,23 @@ public class AppController implements ErrorController {
 		boolean isOriginator = swapService.isUserOriginator(intId, email);
 		if(isOriginator == true){
 			origSwap.setConfirmed(1);
+			origSwap.setIsConfirmed("y");
 		} else {
 			origSwap.setSwapConfirmed(1);
+			origSwap.setIsConfirmed("y");			
 		}
+		swapRepo.save(origSwap);		
 //		try{
 //			mailService.sendConfirmedEmail(email);
 //		}catch(UnsupportedEncodingException e){
 //			LOG.error("mail not sent");
 //		}
-		swapRepo.save(origSwap);
+
 
 		List<SwapOrig> mySwaps = swapService.listMySwaps(email);
 		if(mySwaps !=null){
 		modelAndView.addObject("myswaps", mySwaps);
 		}		
-
 		modelAndView.setViewName("myswaps");		
 		return modelAndView;
 	}		

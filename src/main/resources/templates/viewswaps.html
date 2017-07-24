@@ -36,7 +36,7 @@
 								<td th:text="${viewswap.FinishTime}"></td>
 								<td th:text="${viewswap.note}"></td>
 								<td th:text="${viewswap.email}"></td>
-								<td th:if="${viewswap.swapStartTime == null}">
+								<td th:if="${viewswap.swapStartTime == null and viewswap.isOriginator == 'n'}">
 									<a th:href="@{/acceptswap(id=${viewswap.id})}">Accept</a>
 								</td>
 							</tr>

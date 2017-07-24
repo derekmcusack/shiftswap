@@ -68,10 +68,25 @@ public class SwapOrig implements Serializable {
 	private int disapprovedBy;	
 	
 	@Column(name = "swap_email")
-	private String swappersEmail;	
+	private String swappersEmail = "default";	
 	
-//	@Column(name = "swapOriginalID")
-//	private int swapOriginalId;	
+	//these are "trigger" fields which will be updated every time a user logs in
+	//they will be used to handle whether users should be allowed to accept or confirm swaps
+	private String isConfirmed;
+	private String isOriginator;
+	
+	public String getIsConfirmed() {
+		return isConfirmed;
+	}
+	public void setIsConfirmed(String isConfirmed) {
+		this.isConfirmed = isConfirmed;
+	}
+	public String getIsOriginator() {
+		return isOriginator;
+	}
+	public void setIsOriginator(String isOriginator) {
+		this.isOriginator = isOriginator;
+	}
 	
 	
 	public int getId() {

@@ -55,7 +55,7 @@ public class SwapServiceImpl implements SwapService{
 	@Override
 	public boolean isUserOriginator(int id, String email){
 		SwapOrig one = swapRepository.findOne(id);
-		if(one.getEmail() == email){
+		if(one.getEmail().equals(email)){
 			return true;
 		}
 		else{
@@ -86,4 +86,35 @@ public class SwapServiceImpl implements SwapService{
 //		}	
 	}	
 
+	@Override
+	public void updateUsersSwapStatus(String email){
+		List<SwapOrig> listMySwaps = swapRepository.findMySwaps(email);
+		for(SwapOrig swapOrig : listMySwaps){
+			if(email.equals(swapOrig.getEmail())){
+				swapOrig.setIsOriginator("y");
+				swapRepository.save(swapOrig);
+			}else{
+				swapOrig.setIsOriginator("n");
+				swapRepository.save(swapOrig);
+			}
+			if((email.equals(swapOrig.getEmail()) && swapOrig.getConfirmed() == 1) ||
+					(email.equals(swapOrig.getSwappersEmail()) && swapOrig.getSwapConfirmed() == 1)){
+				swapOrig.setIsConfirmed("y");
+				swapRepository.save(swapOrig);				
+			}else{
+				swapOrig.setIsConfirmed("n");
+				swapRepository.save(swapOrig);				
+			}
+		}
+		
+	}
+	
+	@Override
+	public void updateOtherSwapStatus(String email){		
+		List<SwapOrig> listOtherUsersSwaps = swapRepository.findOtherUsersSwaps(email);
+		for(SwapOrig swapOrig : listOtherUsersSwaps){
+			swapOrig.setIsOriginator("n");
+			swapRepository.save(swapOrig);
+		}
+	}
 }
