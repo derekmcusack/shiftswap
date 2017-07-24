@@ -68,7 +68,7 @@ public class SwapOrig implements Serializable {
 	private int disapprovedBy;	
 	
 	@Column(name = "swap_email")
-	private String swappersEmail = "default";	
+	private String swappersEmail = "none";	
 	
 	//these are "trigger" fields which will be updated every time a user logs in
 	//they will be used to handle whether users should be allowed to accept or confirm swaps

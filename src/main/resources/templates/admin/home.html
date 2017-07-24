@@ -26,34 +26,33 @@
 			</div>
 		</div>
 		
-					<div th:if="${not #lists.isEmpty(confirmedswaps)}">					
+					<div th:if="${not #lists.isEmpty(myswaps)}">					
 						<h2>Confirmed Shift Swaps</h2>
 						<table class="table table-striped">
 							<tr>
-								<th>Originator Email</th>
+								<th>Originator</th>
 								<th>Shift Date</th>
 								<th>Shift Start</th>
 								<th>Shift Finish</th>
-								<th>Shift Note</th>
-								<th>Swapper Email</th>
+								<th>Swapper</th>
 								<th>Swap Date</th>
 								<th>Swap Start</th>
 								<th>Swap Finish</th>
-								<th>Swap Note</th>
 								<th></th>
 							</tr>
 							<tr th:each="myswap : ${myswaps}">
+								<td th:text="${myswap.email}"></td>							
 								<td th:text="${myswap.Date}"></td>
 								<td th:text="${myswap.StartTime}"></td>
 								<td th:text="${myswap.FinishTime}"></td>
-								<td th:text="${myswap.note}"></td>
-								<td th:text="${myswap.swapDate != null ? myswap.swapDate : 'NO OFFER'}"/>
-								<td th:text="${myswap.swapStartTime != null ? myswap.swapStartTime : 'NO OFFER'}"/>
-								<td th:text="${myswap.swapFinishTime != null ? myswap.swapFinishTime : 'NO OFFER'}"/>
-								<td th:text="${myswap.swapNote != null ? myswap.swapNote : 'NO OFFER'}"/>																																	
-								<td th:if="${myswap.swapStartTime != null and myswap.swapConfirmed != 1 and myswap.confirmed != 1}">
-									<a th:href="@{/confirmswap(id=${myswap.id})}">Confirm</a>
-								</td>
+								<td th:text="${myswap.swappersEmail}"></td>
+								<td th:text="${myswap.swapDate}"/>
+								<td th:text="${myswap.swapStartTime}"/>
+								<td th:text="${myswap.swapFinishTime}"/>																															
+								<td th:if="${myswap.confirmed == 1 and myswap.swapConfirmed == 1}">
+									<a th:href="@{/approveswap(id=${myswap.id})}">Approve </a>
+									<a th:href="@{/disapproveswap(id=${myswap.id})}">Disapprove </a>
+								</td>							
 							</tr>
 						
 						</table>

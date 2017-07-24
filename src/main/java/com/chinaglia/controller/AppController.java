@@ -179,6 +179,8 @@ public class AppController implements ErrorController {
 		User user = userService.findUserByEmail(auth.getName());
 		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (ADMIN) " + " (" + user.getEmail() + ")");
 		modelAndView.addObject("adminMessage","Admin Users Page");
+		List<SwapOrig> swaps = swapService.listAllSwaps();
+		modelAndView.addObject("myswaps", swaps);
 		modelAndView.setViewName("admin/home");
 		return modelAndView;
 	}
