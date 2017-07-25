@@ -72,7 +72,7 @@ public class SwapServiceImpl implements SwapService{
         
 
 	@Override
-	public void saveShiftSwap(SwapOrig swapOrig, String emailToSendTo){
+	public void saveShiftSwap(SwapOrig swapOrig, String emailToSendTo, String shiftDetails){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		swapOrig.setSwappersEmail(email);
@@ -80,7 +80,7 @@ public class SwapServiceImpl implements SwapService{
 		
 		//send email notification - ***commented out for testing purposes***
 //			try {
-//			mailService.sendAcceptedEmail(emailToSendTo);
+//			mailService.sendAcceptedEmail(emailToSendTo, shiftDetails);
 //		} catch (UnsupportedEncodingException e) {
 //			e.printStackTrace();
 //		}	
@@ -116,5 +116,11 @@ public class SwapServiceImpl implements SwapService{
 			swapOrig.setIsOriginator("n");
 			swapRepository.save(swapOrig);
 		}
+	}
+	
+	@Override
+	public List<SwapOrig> returnConfirmedSwaps(){
+		List<SwapOrig> confirmedSwaps = swapRepository.findConfirmedSwaps();
+		return confirmedSwaps;
 	}
 }

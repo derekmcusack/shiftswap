@@ -13,8 +13,8 @@
 		<button class="btn btn-md btn-warning btn-block" type="Submit">Go Home</button>
 	</form>	
 	
-	<div class="container">
-		<div class="row">
+	<div class="panel-group" style="margin-top:40px">
+			
 			<div class="col-md-6 col-md-offset-3">
 
 					<br /><br />
@@ -32,8 +32,8 @@
 								<th>Swap Start</th>
 								<th>Swap Finish</th>
 								<th>Swap Note</th>
-								<th></th>
-								<th></th>								
+								<th>Status</th>
+								<th>Status</th>								
 							</tr>
 							<tr th:each="myswap : ${myswaps}">
 								<td th:text="${myswap.Date}"></td>
@@ -47,9 +47,16 @@
 								<td th:if="${myswap.swapStartTime != null and myswap.isConfirmed !='y'}">
 									<a th:href="@{/confirmswap(id=${myswap.id})}">Confirm</a>
 								</td>
-								<td th:if="${myswap.isConfirmed =='y'}">
+								<td th:if="${myswap.isConfirmed == 'y'}">
 								Confirmed
 								</td>
+								<td th:if="${myswap.approvedBy != 'none'}">
+								Approved
+								</td>
+								<td th:if="${myswap.disapprovedBy != 'none'}">
+								Disapproved
+								</td>								
+								
 							</tr>
 						
 						</table>

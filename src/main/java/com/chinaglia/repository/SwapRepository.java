@@ -21,7 +21,12 @@ public interface SwapRepository extends JpaRepository<SwapOrig, Integer> {
     
     @Query("select s from SwapOrig s "
     		+ "where s.swappersEmail != :email and s.email != :email")
-    List<SwapOrig> findOtherUsersSwaps(@Param("email") String email);    
+    List<SwapOrig> findOtherUsersSwaps(@Param("email") String email); 
+    
+    @Query("select s from SwapOrig s "
+    		+ "where confirmed = 1 and swapConfirmed = 1 and"
+    		+ "(approvedBy = 'none' and disapprovedBy = 'none')")
+    List<SwapOrig> findConfirmedSwaps();
     
     
 }

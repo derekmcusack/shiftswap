@@ -25,7 +25,6 @@ import com.chinaglia.model.SwapOrig;
 import com.chinaglia.model.User;
 import com.chinaglia.repository.SwapRepository;
 import com.chinaglia.service.MyMailService;
-import com.chinaglia.service.ShiftSwapService;
 import com.chinaglia.service.SwapService;
 import com.chinaglia.service.UserService;
 
@@ -129,10 +128,12 @@ public class AppController implements ErrorController {
 		//set this id in the object
 //		swapOrig.setId(Integer.valueOf(swaporigid));
 		
+		String shiftDetails = swapOrig.getDate() + ", From " + swapOrig.getStartTime() + " to " 
+				+swapOrig.getFinishTime();
 		//run query via Repository class to get email of user who initiated swap request
 		String emailToSendTo = swapRepo.findUsersEmail(Integer.valueOf(swaporigid));
 		//save the shift swap, passing in the object and the email of the originator
-		swapService.saveShiftSwap(swapOrig, emailToSendTo);
+		swapService.saveShiftSwap(swapOrig, emailToSendTo, shiftDetails);
 		modelAndView.addObject("successMessage", 	
 				"Your offer of acceptance has been received and your colleague was notified!");
 		modelAndView.addObject("user", new User());		
@@ -179,8 +180,8 @@ public class AppController implements ErrorController {
 		User user = userService.findUserByEmail(auth.getName());
 		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (ADMIN) " + " (" + user.getEmail() + ")");
 		modelAndView.addObject("adminMessage","Admin Users Page");
-		List<SwapOrig> swaps = swapService.listAllSwaps();
-		modelAndView.addObject("myswaps", swaps);
+		List<SwapOrig> confirmedSwaps = swapService.returnConfirmedSwaps();
+		modelAndView.addObject("myswaps", confirmedSwaps);
 		modelAndView.setViewName("admin/home");
 		return modelAndView;
 	}
@@ -189,7 +190,7 @@ public class AppController implements ErrorController {
 	@RequestMapping(value="/home", method = RequestMethod.GET)
 	public ModelAndView homeUser(){
 		ModelAndView modelAndView = new ModelAndView();
-		//what role is the user?
+		//retrieve user details from Spring Security
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		String email = user.getEmail();
@@ -211,6 +212,7 @@ public class AppController implements ErrorController {
 		return modelAndView;
 	}	
 	
+	//To handle process of user confirming a swap
 	@RequestMapping(value = "/confirmswap", method = RequestMethod.GET)
 	public ModelAndView afterConfirmSwap(@Valid SwapOrig swapOrig, BindingResult bindingResult,
 			@RequestParam(value="id", required=true) String id) throws UnsupportedEncodingException {
@@ -220,20 +222,31 @@ public class AppController implements ErrorController {
 		String email = auth.getName();
 		SwapOrig origSwap = swapRepo.getOne(intId);
 		boolean isOriginator = swapService.isUserOriginator(intId, email);
-		if(isOriginator == true){
+		if(isOriginator){
 			origSwap.setConfirmed(1);
 			origSwap.setIsConfirmed("y");
 		} else {
 			origSwap.setSwapConfirmed(1);
 			origSwap.setIsConfirmed("y");			
 		}
-		swapRepo.save(origSwap);		
+		swapRepo.save(origSwap);
+		
 //		try{
-//			mailService.sendConfirmedEmail(email);
+//			String emailToSendTo;
+//			String shiftDetails;
+//			if(isOriginator){
+//				emailToSendTo = origSwap.getSwappersEmail();
+//				shiftDetails = origSwap.getDate() + " " + origSwap.getStartTime() +
+//							" " + origSwap.getFinishTime();								
+//			}else{
+//				emailToSendTo = origSwap.getEmail();
+//				shiftDetails = origSwap.getSwapDate() + " " + origSwap.getSwapStartTime() +
+//						" " + origSwap.getSwapFinishTime();	
+//			}
+//			mailService.sendConfirmedEmail(emailToSendTo,shiftDetails);
 //		}catch(UnsupportedEncodingException e){
 //			LOG.error("mail not sent");
 //		}
-
 
 		List<SwapOrig> mySwaps = swapService.listMySwaps(email);
 		if(mySwaps !=null){
@@ -243,6 +256,82 @@ public class AppController implements ErrorController {
 		return modelAndView;
 	}		
 	
+	//To handle process of admin approving a swap
+	@RequestMapping(value = "/approveswap", method = RequestMethod.GET)
+	public ModelAndView approveASwap(@Valid SwapOrig swapOrig, BindingResult bindingResult,
+			@RequestParam(value="id", required=true) String id) throws UnsupportedEncodingException {
+		ModelAndView modelAndView = new ModelAndView();
+		int intId = Integer.valueOf(id);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();		
+		User user = userService.findUserByEmail(auth.getName());	
+		SwapOrig swapToBeApproved = swapRepo.getOne(intId);
+		//extra validation to ensure that swap has been confirmed 
+		if(swapToBeApproved.getConfirmed() == 1 && swapToBeApproved.getSwapConfirmed() == 1){
+			swapToBeApproved.setApprovedBy(user.getEmail());
+			swapRepo.save(swapToBeApproved);
+		} else {
+			LOG.error("Seems to be a problem: is swap " + swapToBeApproved.getId() + " approved? ");
+		}
+		
+//			try{
+//				String firstEmail = swapToBeApproved.getEmail();
+//				String otherEmail = swapToBeApproved.getSwappersEmail();
+//				String shiftDetails = "Shift Date: " + swapToBeApproved.getDate() +
+//						", From " + swapToBeApproved.getStartTime() + " to " + swapToBeApproved.getFinishTime() +
+//						"\r\nSwap Shift Date: " + swapToBeApproved.getSwapDate() +
+//						", From " + swapToBeApproved.getSwapStartTime() + " to " + swapToBeApproved.getSwapFinishTime() +
+//						"\r\n\r\n";
+//				mailService.sendApprovedEmail(firstEmail, otherEmail, shiftDetails);
+//		}catch(UnsupportedEncodingException e){
+//			LOG.error("mail not sent");
+//		}
+			
+		List<SwapOrig> confirmedSwaps = swapService.returnConfirmedSwaps();
+		modelAndView.addObject("myswaps", confirmedSwaps);
+		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (ADMIN) " + " (" + user.getEmail() + ")");
+		modelAndView.addObject("adminMessage","Admin Users Page");		
+		modelAndView.setViewName("admin/home");
+		return modelAndView;
+	}
+	
+	//To handle process of admin disApproving a swap
+	@RequestMapping(value = "/disapproveswap", method = RequestMethod.GET)
+	public ModelAndView disapproveASwap(@Valid SwapOrig swapOrig, BindingResult bindingResult,
+			@RequestParam(value="id", required=true) String id) throws UnsupportedEncodingException {
+		ModelAndView modelAndView = new ModelAndView();
+		int intId = Integer.valueOf(id);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();		
+		User user = userService.findUserByEmail(auth.getName());	
+		SwapOrig swapToBeDisapproved = swapRepo.getOne(intId);
+		//extra validation to ensure that swap has been confirmed 
+		if(swapToBeDisapproved.getConfirmed() == 1 && swapToBeDisapproved.getSwapConfirmed() == 1){
+			swapToBeDisapproved.setDisapprovedBy(user.getEmail());
+			swapRepo.save(swapToBeDisapproved);
+		} else {
+			LOG.error("Seems to be a problem: is swap " + swapToBeDisapproved.getId() + " approved? ");
+		}
+		
+//		try{
+//			String firstEmail = swapToBeDisapproved.getEmail();
+//			String otherEmail = swapToBeDisapproved.getSwappersEmail();
+//			String shiftDetails = "Shift Date: " + swapToBeDisapproved.getDate() +
+//					", From " + swapToBeDisapproved.getStartTime() + " to " + swapToBeDisapproved.getFinishTime() +
+//					"\r\nSwap Shift Date: " + swapToBeDisapproved.getSwapDate() +
+//					", From " + swapToBeDisapproved.getSwapStartTime() + " to " + swapToBeDisapproved.getSwapFinishTime() +
+//					"\r\n\r\n";			
+//			mailService.sendDisapprovedEmail(firstEmail,otherEmail,shiftDetails);
+//		}catch(UnsupportedEncodingException e){
+//			LOG.error("disapproved mail not sent");
+//		}
+			
+		List<SwapOrig> confirmedSwaps = swapService.returnConfirmedSwaps();
+		modelAndView.addObject("myswaps", confirmedSwaps);
+		modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (ADMIN) " + " (" + user.getEmail() + ")");
+		modelAndView.addObject("adminMessage","Admin Users Page");		
+		modelAndView.setViewName("admin/home");
+		return modelAndView;
+	}	
+		
 	
 	//error handling
     @RequestMapping(value = PATH)

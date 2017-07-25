@@ -13,7 +13,7 @@
 		<button class="btn btn-md btn-warning btn-block" type="Submit">Go Home</button>
 	</form>	
 	
-	<div class="container">
+	<div class="panel-group" style="margin-top:40px">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 
@@ -28,7 +28,8 @@
 								<th>Finish</th>
 								<th>Note</th>
 								<th>Email</th>
-								<th></th>
+								<th>Status</th>
+								<th>Status</th>
 							</tr>
 							<tr th:each="viewswap : ${viewswaps}">
 								<td th:text="${viewswap.Date}"></td>
@@ -39,6 +40,15 @@
 								<td th:if="${viewswap.swapStartTime == null and viewswap.isOriginator == 'n'}">
 									<a th:href="@{/acceptswap(id=${viewswap.id})}">Accept</a>
 								</td>
+								<td th:if="${viewswap.swapStartTime != null or viewswap.isOriginator != 'n'}">
+									Unavailable
+								</td>
+								<td th:if="${viewswap.approvedBy != 'none'}">
+									Approved
+								</td>		
+								<td th:if="${viewswap.disapprovedBy != 'none'}">
+									Disapproved
+								</td>																								
 							</tr>
 						
 						</table>

@@ -62,10 +62,10 @@ public class SwapOrig implements Serializable {
 	private String swapNote;
 	
 	@Column(name = "approvedBy")
-	private int approvedBy;
+	private String approvedBy = "none";
 	
 	@Column(name = "disapprovedBy")
-	private int disapprovedBy;	
+	private String disapprovedBy = "none";	
 	
 	@Column(name = "swap_email")
 	private String swappersEmail = "none";	
@@ -189,19 +189,19 @@ public class SwapOrig implements Serializable {
 		this.swapNote = swapNote;
 	}
 
-	public int getApprovedBy() {
+	public String getApprovedBy() {
 		return approvedBy;
 	}
 
-	public void setApprovedBy(int approvedBy) {
+	public void setApprovedBy(String approvedBy) {
 		this.approvedBy = approvedBy;
 	}
 
-	public int getDisapprovedBy() {
+	public String getDisapprovedBy() {
 		return disapprovedBy;
 	}
 
-	public void setDisapprovedBy(int disapprovedBy) {
+	public void setDisapprovedBy(String disapprovedBy) {
 		this.disapprovedBy = disapprovedBy;
 	}
 
