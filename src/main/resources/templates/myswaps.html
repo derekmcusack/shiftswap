@@ -32,8 +32,8 @@
 								<th>Swap Start</th>
 								<th>Swap Finish</th>
 								<th>Swap Note</th>
-								<th>Status</th>
-								<th>Status</th>								
+								<th>Confirmation Status</th>
+								<th>Approval Status</th>								
 							</tr>
 							<tr th:each="myswap : ${myswaps}">
 								<td th:text="${myswap.Date}"></td>
@@ -44,10 +44,10 @@
 								<td th:text="${myswap.swapStartTime != null ? myswap.swapStartTime : 'NO OFFER'}"/>
 								<td th:text="${myswap.swapFinishTime != null ? myswap.swapFinishTime : 'NO OFFER'}"/>
 								<td th:text="${myswap.swapNote != null ? myswap.swapNote : 'NO OFFER'}"/>																																	
-								<td th:if="${myswap.swapStartTime != null and myswap.isConfirmed !='y'}">
+								<td th:if="${myswap.swapStartTime != null and session.Cid__${myswap.id}__ == 'notConf'}">
 									<a th:href="@{/confirmswap(id=${myswap.id})}">Confirm</a>
 								</td>
-								<td th:if="${myswap.isConfirmed == 'y'}">
+								<td th:if="${session.Cid__${myswap.id}__ == 'isConf'}">
 								Confirmed
 								</td>
 								<td th:if="${myswap.approvedBy != 'none'}">

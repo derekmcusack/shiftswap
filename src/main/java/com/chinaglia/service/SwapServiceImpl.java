@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class SwapServiceImpl implements SwapService{
 	
 	@Autowired
 	private MyMailService mailService;
+	
+	@Autowired
+	HttpServletRequest request;
 	
 	private Session getSession(){
 		return entityManager.unwrap(Session.class);
@@ -90,20 +95,19 @@ public class SwapServiceImpl implements SwapService{
 	public void updateUsersSwapStatus(String email){
 		List<SwapOrig> listMySwaps = swapRepository.findMySwaps(email);
 		for(SwapOrig swapOrig : listMySwaps){
-			if(email.equals(swapOrig.getEmail())){
-				swapOrig.setIsOriginator("y");
-				swapRepository.save(swapOrig);
+			if(email.equals(swapOrig.getEmail())){				
+				request.getSession().setAttribute("Oid"+String.valueOf(swapOrig.getId()), "isOrig");
+//				swapOrig.setIsOriginator("y");
+//				swapRepository.save(swapOrig);
 			}else{
-				swapOrig.setIsOriginator("n");
-				swapRepository.save(swapOrig);
+				request.getSession().setAttribute("Oid"+String.valueOf(swapOrig.getId()), "notOrig");
 			}
+			
 			if((email.equals(swapOrig.getEmail()) && swapOrig.getConfirmed() == 1) ||
 					(email.equals(swapOrig.getSwappersEmail()) && swapOrig.getSwapConfirmed() == 1)){
-				swapOrig.setIsConfirmed("y");
-				swapRepository.save(swapOrig);				
+				request.getSession().setAttribute("Cid"+String.valueOf(swapOrig.getId()), "isConf");	
 			}else{
-				swapOrig.setIsConfirmed("n");
-				swapRepository.save(swapOrig);				
+				request.getSession().setAttribute("Cid"+String.valueOf(swapOrig.getId()), "notConf");
 			}
 		}
 		
@@ -113,8 +117,7 @@ public class SwapServiceImpl implements SwapService{
 	public void updateOtherSwapStatus(String email){		
 		List<SwapOrig> listOtherUsersSwaps = swapRepository.findOtherUsersSwaps(email);
 		for(SwapOrig swapOrig : listOtherUsersSwaps){
-			swapOrig.setIsOriginator("n");
-			swapRepository.save(swapOrig);
+			request.getSession().setAttribute("Oid"+String.valueOf(swapOrig.getId()), "notOrig");
 		}
 	}
 	

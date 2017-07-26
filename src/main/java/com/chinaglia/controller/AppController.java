@@ -47,6 +47,8 @@ public class AppController implements ErrorController {
 	private MyMailService mailService;
 	@Autowired
 	SwapRepository swapRepo;
+	@Autowired
+	HttpServletRequest request;	
 
 	
 	//Serves Login page/view	
@@ -123,11 +125,7 @@ public class AppController implements ErrorController {
 		ModelAndView modelAndView = new ModelAndView();
 		//retrieve the swapid of the initiated swap request
 		String swaporigid = (String) request.getSession().getAttribute("origswapid");			
-		modelAndView.addObject(swapOrig);
-
-		//set this id in the object
-//		swapOrig.setId(Integer.valueOf(swaporigid));
-		
+		modelAndView.addObject(swapOrig);		
 		String shiftDetails = swapOrig.getDate() + ", From " + swapOrig.getStartTime() + " to " 
 				+swapOrig.getFinishTime();
 		//run query via Repository class to get email of user who initiated swap request
@@ -224,10 +222,10 @@ public class AppController implements ErrorController {
 		boolean isOriginator = swapService.isUserOriginator(intId, email);
 		if(isOriginator){
 			origSwap.setConfirmed(1);
-			origSwap.setIsConfirmed("y");
+			request.getSession().setAttribute("Cid"+String.valueOf(origSwap.getId()), "isConf");
 		} else {
 			origSwap.setSwapConfirmed(1);
-			origSwap.setIsConfirmed("y");			
+			request.getSession().setAttribute("Cid"+String.valueOf(origSwap.getId()), "isConf");			
 		}
 		swapRepo.save(origSwap);
 		

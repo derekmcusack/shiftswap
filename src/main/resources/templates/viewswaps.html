@@ -20,7 +20,6 @@
 					<br /><br />
 					<div th:if="${not #lists.isEmpty(viewswaps)}">
 						<h2>Shift Swaps</h2>
-						<h4>(You can only accept swaps which are still available)</h4>
 						<table class="table table-striped">
 							<tr>
 								<th>Date</th>
@@ -28,8 +27,8 @@
 								<th>Finish</th>
 								<th>Note</th>
 								<th>Email</th>
-								<th>Status</th>
-								<th>Status</th>
+								<th>Accept Swap</th>
+								<th>Approval Status</th>
 							</tr>
 							<tr th:each="viewswap : ${viewswaps}">
 								<td th:text="${viewswap.Date}"></td>
@@ -37,10 +36,10 @@
 								<td th:text="${viewswap.FinishTime}"></td>
 								<td th:text="${viewswap.note}"></td>
 								<td th:text="${viewswap.email}"></td>
-								<td th:if="${viewswap.swapStartTime == null and viewswap.isOriginator == 'n'}">
+								<td th:if="${viewswap.swapStartTime == null and session.Oid__${viewswap.id}__ == 'notOrig'}">
 									<a th:href="@{/acceptswap(id=${viewswap.id})}">Accept</a>
 								</td>
-								<td th:if="${viewswap.swapStartTime != null or viewswap.isOriginator != 'n'}">
+								<td th:if="${viewswap.swapStartTime != null or session.Oid__${viewswap.id}__ == 'isOrig'}">
 									Unavailable
 								</td>
 								<td th:if="${viewswap.approvedBy != 'none'}">
@@ -48,7 +47,11 @@
 								</td>		
 								<td th:if="${viewswap.disapprovedBy != 'none'}">
 									Disapproved
-								</td>																								
+								</td>	
+								<td th:if="${viewswap.disapprovedBy == 'none' and viewswap.approvedBy == 'none'}">
+									N/A
+								</td>									
+																															
 							</tr>
 						
 						</table>
