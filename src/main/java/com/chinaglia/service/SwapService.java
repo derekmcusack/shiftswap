@@ -15,4 +15,5 @@ public interface SwapService {
 	public void updateUsersSwapStatus(String email);
 	public void updateOtherSwapStatus(String email);
 	public List<SwapOrig> returnConfirmedSwaps();
+	public List<SwapOrig> listAvailableSwaps(String email);
 }

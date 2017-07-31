@@ -17,6 +17,18 @@ public class SwapOrig implements Serializable {
 	 * 
 	 */
 	
+	//for testing
+	public SwapOrig(String date, String startTime, String finishTime, String email){
+		this.date = date;
+		this.startTime = startTime;
+		this.finishTime = finishTime;
+		this.email = email;
+	}
+	
+	public SwapOrig(){
+		
+	}
+	
 	private static final long serialVersionUID = 6303331429337067875L;
 	
 	@Id

@@ -28,7 +28,7 @@
 								<th>Note</th>
 								<th>Email</th>
 								<th>Accept Swap</th>
-								<th>Approval Status</th>
+
 							</tr>
 							<tr th:each="viewswap : ${viewswaps}">
 								<td th:text="${viewswap.Date}"></td>
@@ -41,16 +41,7 @@
 								</td>
 								<td th:if="${viewswap.swapStartTime != null or session.Oid__${viewswap.id}__ == 'isOrig'}">
 									Unavailable
-								</td>
-								<td th:if="${viewswap.approvedBy != 'none'}">
-									Approved
-								</td>		
-								<td th:if="${viewswap.disapprovedBy != 'none'}">
-									Disapproved
-								</td>	
-								<td th:if="${viewswap.disapprovedBy == 'none' and viewswap.approvedBy == 'none'}">
-									N/A
-								</td>									
+								</td>								
 																															
 							</tr>
 						

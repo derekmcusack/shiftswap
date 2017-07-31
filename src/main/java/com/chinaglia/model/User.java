@@ -26,6 +26,20 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
+	
+	//constructor, for use when testing User repository
+	public User(String name, String lastName, String email, String password){
+		this.name = name;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+	}
+	
+	//no arg constructor
+	public User(){
+		
+	}
+	
 	private static final long serialVersionUID = 4907758094962942870L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

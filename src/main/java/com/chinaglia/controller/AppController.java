@@ -63,8 +63,11 @@ public class AppController implements ErrorController {
 	@RequestMapping(value={"/viewswaps"}, method = RequestMethod.GET)
 	public ModelAndView viewSwaps(){
 		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
 		//get a list of currently available swaps from SwapOrig entity via swap service
-		List<SwapOrig> swaps = swapService.listAllSwaps();
+		
+		List<SwapOrig> swaps = swapService.listAvailableSwaps(email);
 		modelAndView.addObject("viewswaps", swaps);
 		return modelAndView;
 	}	
@@ -98,7 +101,8 @@ public class AppController implements ErrorController {
 	public ModelAndView createNewSwapRequest(@Valid SwapOrig swaporig, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		swapService.saveSwap(swaporig);
-		modelAndView.addObject("successMessage", "Success! Your shift swap request has been published!");
+		modelAndView.addObject("successMessage", 
+				"Success! Your shift swap request has been published!<br /><strong><a href='/home'>HOME</a></strong>");
 		modelAndView.addObject("swaporig", new SwapOrig());
 		modelAndView.setViewName("requestaswap");
 		return modelAndView;
@@ -133,7 +137,7 @@ public class AppController implements ErrorController {
 		//save the shift swap, passing in the object and the email of the originator
 		swapService.saveShiftSwap(swapOrig, emailToSendTo, shiftDetails);
 		modelAndView.addObject("successMessage", 	
-				"Your offer of acceptance has been received and your colleague was notified!");
+		"Your offer of acceptance has been received and your colleague was notified!<br /><strong><a href='/home'>HOME</a></strong>");
 		modelAndView.addObject("user", new User());		
 		modelAndView.setViewName("acceptswap");
 		return modelAndView;
@@ -162,7 +166,7 @@ public class AppController implements ErrorController {
 			modelAndView.setViewName("registration");
 		} else {
 			userService.saveUser(user);
-			modelAndView.addObject("successMessage", "Success! You are now registered on the system!");
+			modelAndView.addObject("successMessage", "Success! You are now registered on the system!<br /><strong><a href='/'>LOGIN?</a></strong>");
 			modelAndView.addObject("user", new User());
 			modelAndView.setViewName("registration");
 			

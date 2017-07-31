@@ -50,12 +50,18 @@
 								<td th:if="${session.Cid__${myswap.id}__ == 'isConf'}">
 								Confirmed
 								</td>
+								<td th:if="${myswap.swapDate == null}">
+								N/A
+								</td>								
 								<td th:if="${myswap.approvedBy != 'none'}">
 								Approved
 								</td>
 								<td th:if="${myswap.disapprovedBy != 'none'}">
 								Disapproved
-								</td>								
+								</td>		
+								<td th:if="${myswap.disapprovedBy == 'none' and myswap.approvedBy == 'none'}">
+									N/A
+								</td>															
 								
 							</tr>
 						

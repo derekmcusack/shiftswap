@@ -9,7 +9,9 @@
 * Update application.properties with your database connection credentials
 * Update application.properties with your email server settings and credentials 
  
-The framework will build the MySql database when the application is started.
+The framework will build the MySql database when the application is started:
+you simply need to first create a database and then provide the name of the database 
+when setting the spring.datasource.url in application.properties.
 
 - - - -
 ** After starting the Application and before registering any users **

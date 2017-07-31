@@ -62,7 +62,15 @@
 		    <groupId>it.ozimov</groupId>
 		    <artifactId>spring-boot-email-core</artifactId>
 		    <version>0.5.0</version>
-		</dependency>				
+		</dependency>	
+		
+<!-- 		for testing only			 -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <scope>test</scope>
+		    <version>1.4.195</version>
+		</dependency>		
 	</dependencies>
 
 	<build>

@@ -97,8 +97,6 @@ public class SwapServiceImpl implements SwapService{
 		for(SwapOrig swapOrig : listMySwaps){
 			if(email.equals(swapOrig.getEmail())){				
 				request.getSession().setAttribute("Oid"+String.valueOf(swapOrig.getId()), "isOrig");
-//				swapOrig.setIsOriginator("y");
-//				swapRepository.save(swapOrig);
 			}else{
 				request.getSession().setAttribute("Oid"+String.valueOf(swapOrig.getId()), "notOrig");
 			}
@@ -125,5 +123,11 @@ public class SwapServiceImpl implements SwapService{
 	public List<SwapOrig> returnConfirmedSwaps(){
 		List<SwapOrig> confirmedSwaps = swapRepository.findConfirmedSwaps();
 		return confirmedSwaps;
+	}
+	
+	@Override
+	public List<SwapOrig> listAvailableSwaps(String email){
+		List<SwapOrig> availableSwaps = swapRepository.findAvailableSwaps(email);
+		return availableSwaps;
 	}
 }
