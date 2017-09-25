@@ -5,18 +5,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
-import com.chinaglia.model.ShiftSwap;
 import com.chinaglia.model.SwapOrig;
 import com.chinaglia.repository.SwapRepository;
 
@@ -84,11 +79,11 @@ public class SwapServiceImpl implements SwapService{
 		swapRepository.save(swapOrig);
 		
 		//send email notification - ***commented out for testing purposes***
-//			try {
-//			mailService.sendAcceptedEmail(emailToSendTo, shiftDetails);
-//		} catch (UnsupportedEncodingException e) {
-//			e.printStackTrace();
-//		}	
+			try {
+			mailService.sendAcceptedEmail(emailToSendTo, shiftDetails);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}	
 	}	
 
 	@Override

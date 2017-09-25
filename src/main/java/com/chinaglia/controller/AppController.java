@@ -233,22 +233,22 @@ public class AppController implements ErrorController {
 		}
 		swapRepo.save(origSwap);
 		
-//		try{
-//			String emailToSendTo;
-//			String shiftDetails;
-//			if(isOriginator){
-//				emailToSendTo = origSwap.getSwappersEmail();
-//				shiftDetails = origSwap.getDate() + " " + origSwap.getStartTime() +
-//							" " + origSwap.getFinishTime();								
-//			}else{
-//				emailToSendTo = origSwap.getEmail();
-//				shiftDetails = origSwap.getSwapDate() + " " + origSwap.getSwapStartTime() +
-//						" " + origSwap.getSwapFinishTime();	
-//			}
-//			mailService.sendConfirmedEmail(emailToSendTo,shiftDetails);
-//		}catch(UnsupportedEncodingException e){
-//			LOG.error("mail not sent");
-//		}
+		try{
+			String emailToSendTo;
+			String shiftDetails;
+			if(isOriginator){
+				emailToSendTo = origSwap.getSwappersEmail();
+				shiftDetails = origSwap.getDate() + " " + origSwap.getStartTime() +
+							" " + origSwap.getFinishTime();								
+			}else{
+				emailToSendTo = origSwap.getEmail();
+				shiftDetails = origSwap.getSwapDate() + " " + origSwap.getSwapStartTime() +
+						" " + origSwap.getSwapFinishTime();	
+			}
+			mailService.sendConfirmedEmail(emailToSendTo,shiftDetails);
+		}catch(UnsupportedEncodingException e){
+			LOG.error("mail not sent");
+		}
 
 		List<SwapOrig> mySwaps = swapService.listMySwaps(email);
 		if(mySwaps !=null){
@@ -275,18 +275,18 @@ public class AppController implements ErrorController {
 			LOG.error("Seems to be a problem: is swap " + swapToBeApproved.getId() + " approved? ");
 		}
 		
-//			try{
-//				String firstEmail = swapToBeApproved.getEmail();
-//				String otherEmail = swapToBeApproved.getSwappersEmail();
-//				String shiftDetails = "Shift Date: " + swapToBeApproved.getDate() +
-//						", From " + swapToBeApproved.getStartTime() + " to " + swapToBeApproved.getFinishTime() +
-//						"\r\nSwap Shift Date: " + swapToBeApproved.getSwapDate() +
-//						", From " + swapToBeApproved.getSwapStartTime() + " to " + swapToBeApproved.getSwapFinishTime() +
-//						"\r\n\r\n";
-//				mailService.sendApprovedEmail(firstEmail, otherEmail, shiftDetails);
-//		}catch(UnsupportedEncodingException e){
-//			LOG.error("mail not sent");
-//		}
+			try{
+				String firstEmail = swapToBeApproved.getEmail();
+				String otherEmail = swapToBeApproved.getSwappersEmail();
+				String shiftDetails = "Shift Date: " + swapToBeApproved.getDate() +
+						", From " + swapToBeApproved.getStartTime() + " to " + swapToBeApproved.getFinishTime() +
+						"\r\nSwap Shift Date: " + swapToBeApproved.getSwapDate() +
+						", From " + swapToBeApproved.getSwapStartTime() + " to " + swapToBeApproved.getSwapFinishTime() +
+						"\r\n\r\n";
+				mailService.sendApprovedEmail(firstEmail, otherEmail, shiftDetails);
+		}catch(UnsupportedEncodingException e){
+			LOG.error("mail not sent");
+		}
 			
 		List<SwapOrig> confirmedSwaps = swapService.returnConfirmedSwaps();
 		modelAndView.addObject("myswaps", confirmedSwaps);
@@ -313,18 +313,18 @@ public class AppController implements ErrorController {
 			LOG.error("Seems to be a problem: is swap " + swapToBeDisapproved.getId() + " approved? ");
 		}
 		
-//		try{
-//			String firstEmail = swapToBeDisapproved.getEmail();
-//			String otherEmail = swapToBeDisapproved.getSwappersEmail();
-//			String shiftDetails = "Shift Date: " + swapToBeDisapproved.getDate() +
-//					", From " + swapToBeDisapproved.getStartTime() + " to " + swapToBeDisapproved.getFinishTime() +
-//					"\r\nSwap Shift Date: " + swapToBeDisapproved.getSwapDate() +
-//					", From " + swapToBeDisapproved.getSwapStartTime() + " to " + swapToBeDisapproved.getSwapFinishTime() +
-//					"\r\n\r\n";			
-//			mailService.sendDisapprovedEmail(firstEmail,otherEmail,shiftDetails);
-//		}catch(UnsupportedEncodingException e){
-//			LOG.error("disapproved mail not sent");
-//		}
+		try{
+			String firstEmail = swapToBeDisapproved.getEmail();
+			String otherEmail = swapToBeDisapproved.getSwappersEmail();
+			String shiftDetails = "Shift Date: " + swapToBeDisapproved.getDate() +
+					", From " + swapToBeDisapproved.getStartTime() + " to " + swapToBeDisapproved.getFinishTime() +
+					"\r\nSwap Shift Date: " + swapToBeDisapproved.getSwapDate() +
+					", From " + swapToBeDisapproved.getSwapStartTime() + " to " + swapToBeDisapproved.getSwapFinishTime() +
+					"\r\n\r\n";			
+			mailService.sendDisapprovedEmail(firstEmail,otherEmail,shiftDetails);
+		}catch(UnsupportedEncodingException e){
+			LOG.error("disapproved mail not sent");
+		}
 			
 		List<SwapOrig> confirmedSwaps = swapService.returnConfirmedSwaps();
 		modelAndView.addObject("myswaps", confirmedSwaps);

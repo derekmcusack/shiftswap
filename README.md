@@ -2,7 +2,8 @@
 
 
 ** An application for shift workers to use for swapping shifts **
-
+Note: I realise that the database structure for this application is not fully normalised, and ideally there should be two tables for the process of swapping shifts (swapOriginator and shiftSwap). This was my original intention, but when I encountered difficulty implementing this structure I decided to use just one table as a work-around. 
+This then enabled me to deliver the promised functionality within the limited time available.
 
 - - - -
 ** To Run The Application **
