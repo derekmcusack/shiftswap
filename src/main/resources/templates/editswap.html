@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Request a ShiftSwap</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<form th:action="@{/home}" method="get">
+		<button class="btn btn-md btn-warning btn-block" type="Submit">Go Home</button>
+	</form>	
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<form autocomplete="off" action="#" th:action="@{/editswap}"
+					th:object="${swaporig}" method="POST" class="form-horizontal"
+					role="form">
+					<h2>Modify Your Swap Request</h2><br /><br /><br />
+
+					<div class="form-group">
+						<div class="col-sm-9">
+						Date of Shift You Want To Swap
+						<label th:if="${#fields.hasErrors('date')}" th:errors="*{date}"
+								class="validation-message"></label>
+						<input type="date" th:field="*{date}" placeholder="Shift Date"
+								class="form-control" /> 
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-sm-9">
+						Start Time 
+						<label th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"
+								class="validation-message"></label>
+						<input type="time" th:field="*{startTime}" placeholder="Shift Start Time"
+								class="form-control" /> 
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-sm-9">
+						Finish Time 
+						<label th:if="${#fields.hasErrors('finishTime')}" th:errors="*{finishTime}"
+								class="validation-message"></label>
+						<input type="time" th:field="*{finishTime}" placeholder="Shift Finish Time"
+								class="form-control" /> 
+						</div>
+					</div>		
+					
+					<div class="form-group">
+						<div class="col-sm-9">
+						Note
+						<label th:if="${#fields.hasErrors('note')}" th:errors="*{note}"
+								class="validation-message"></label>
+						<input type="text" th:field="*{note}" placeholder="When would you like the swapped shift to be?"
+								class="form-control" /> 
+						</div>
+					</div>										
+
+
+					<div class="form-group">
+						<div class="col-sm-9">
+							<button type="submit" class="btn btn-primary btn-block">Save Edits</button>
+						</div>
+					</div>
+					
+					<span th:utext="${successMessage}"></span>
+					
+					
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
