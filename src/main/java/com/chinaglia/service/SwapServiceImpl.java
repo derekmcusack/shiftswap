@@ -41,6 +41,14 @@ public class SwapServiceImpl implements SwapService{
 		swapRequest.setEmail(email);
 		swapRepository.save(swapRequest);
 	}
+	
+	@Override
+	public void modifySwap(SwapOrig swapRequest) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		swapRequest.setEmail(email);	
+		swapRepository.save(swapRequest);
+	}	
 
 	@Override
 	public List<SwapOrig> listAllSwaps() {
@@ -125,4 +133,5 @@ public class SwapServiceImpl implements SwapService{
 		List<SwapOrig> availableSwaps = swapRepository.findAvailableSwaps(email);
 		return availableSwaps;
 	}
+
 }

@@ -108,6 +108,30 @@ public class AppController implements ErrorController {
 		return modelAndView;
 	}	
 	
+	//Serves Modify a Swap page/view - ToDO: Use Param to retrieve relevant swap *****	
+	@RequestMapping(value={"/editswap"}, method = RequestMethod.GET)
+	public ModelAndView editSwap(@RequestParam(value="id", required=true) String id){
+		int intId = Integer.valueOf(id);
+		SwapOrig origSwap = swapRepo.getOne(intId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("user", new User());
+		modelAndView.addObject("swaporig", origSwap);
+		modelAndView.setViewName("editswap");
+		return modelAndView;
+	}	
+	
+	//Modify a Swap - on submit
+	@RequestMapping(value = "/editswap", method = RequestMethod.POST)
+	public ModelAndView editSwap(@Valid SwapOrig swaporig, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		swapService.saveSwap(swaporig);
+		modelAndView.addObject("successMessage", 
+				"Success! Your shift swap request has been modified!<br /><strong><a href='/home'>HOME</a></strong>");
+		modelAndView.addObject("swaporig", new SwapOrig());
+		modelAndView.setViewName("editswap");
+		return modelAndView;
+	}		
+	
 	//Serves Accept a Swap page/view	
 	@RequestMapping(value={"/acceptswap"}, method = RequestMethod.GET)
 	public ModelAndView acceptASwap(@RequestParam(value = "id", required =   

@@ -7,6 +7,7 @@ import com.chinaglia.model.SwapOrig;
 public interface SwapService {
 
 	public void saveSwap(SwapOrig swapRequest);
+	public void modifySwap(SwapOrig swapRequest);
 	public List<SwapOrig> listAllSwaps();
 	public void saveShiftSwap(SwapOrig swapOrig, String emailToSendTo, String shiftDetails);
 	public SwapOrig getSwapOrigById(int id);

@@ -61,7 +61,10 @@
 								</td>		
 								<td th:if="${myswap.disapprovedBy == 'none' and myswap.approvedBy == 'none'}">
 									N/A
-								</td>															
+								</td>	
+								<td th:if="${session.Oid__${myswap.id}__ == 'isOrig'}">
+									<a th:href="@{/editswap(id=${myswap.id})}">Modify</a>
+								</td>														
 								
 							</tr>
 						
